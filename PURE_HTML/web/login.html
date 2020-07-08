@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>Login page</title>
+</head>
+
+<body>
+	<form method="POST" data-th-attr="action=@{/CheckLogin}">
+		<input type="text" name="code" placeholder="Codice univoco"/>
+		<input type="password" name="password" placeholder="Password"/>
+		<input type="submit" name="login" value="Accesso"/>
+	</form>
+	<form method="POST" data-th-attr="action=@{/CheckLogin}">
+		<input type="text" name="name" placeholder="Nome"/>
+		<input type="password" name="password" placeholder="Password"/>
+		<input type="submit" name="register" value="Registrazione"/>
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,5 @@
+# ignored files
+/**/*.class
+/**/*.iml
+/**/.idea/
+/**/out/
