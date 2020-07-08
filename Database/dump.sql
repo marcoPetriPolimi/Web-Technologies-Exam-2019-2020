@@ -1,0 +1,2 @@
+CREATE SCHEMA `purehtml` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+

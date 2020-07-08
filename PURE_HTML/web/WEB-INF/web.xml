@@ -5,6 +5,31 @@
          version="4.0">
 	<!-- ****************************
 	 *								*
+	 *		CONTEXT PARAMS			*
+	 *								*
+	 ******************************** -->
+	<context-param>
+		<param-name>DbUrl</param-name>
+		<param-value>jdbc:mysql://localhost:3306/purehtml?serverTimezone=CET</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>DbUser</param-name>
+		<param-value>marco_tiw</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>DbPassword</param-name>
+		<param-value>my_password</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>DbDriver</param-name>
+		<param-value>com.mysql.cj.jdbc.Driver</param-value>
+	</context-param>
+
+	<!-- ****************************
+	 *								*
 	 *		SERVLET FILTERS			*
 	 *								*
 	 ******************************** -->
