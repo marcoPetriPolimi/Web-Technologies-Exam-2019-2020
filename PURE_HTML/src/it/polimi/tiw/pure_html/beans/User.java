@@ -10,6 +10,11 @@ public class User {
 		this.name = name;
 		this.password = password;
 	}
+	public User(User other, String newValue, boolean isName) {
+		this.code = other.getCode();
+		this.name = isName ? newValue : other.getName();
+		this.password = isName ? other.getPassword() : newValue;
+	}
 
 	public int getCode() {
 		return code;

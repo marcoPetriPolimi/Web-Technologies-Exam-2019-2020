@@ -8,13 +8,15 @@ public class Transfer {
 	private final Account ingoing;
 	private final Timestamp datetime;
 	private final int amount;
+	private final String reason;
 
-	public Transfer(int id, Account outgoing, Account ingoing, Timestamp datetime, int amount) {
+	public Transfer(int id, Account outgoing, Account ingoing, Timestamp datetime, int amount, String reason) {
 		this.id = id;
 		this.outgoing = outgoing;
 		this.ingoing = ingoing;
 		this.datetime = datetime;
 		this.amount = amount;
+		this.reason = reason;
 	}
 
 	public int getId() {
@@ -31,5 +33,8 @@ public class Transfer {
 	}
 	public int getAmount() {
 		return amount;
+	}
+	public String getReason() {
+		return reason;
 	}
 }
