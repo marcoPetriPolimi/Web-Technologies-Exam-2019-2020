@@ -1,5 +1,7 @@
 package it.polimi.tiw.pure_html.dao;
 
+import it.polimi.tiw.pure_html.utils.Const;
+
 import java.sql.Connection;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -10,10 +12,10 @@ public class GeneralDAO {
 
 	public GeneralDAO(Connection conn) {
 		this.conn = conn;
-		selectedLanguage = ResourceBundle.getBundle("PURE_HTML",new Locale("en","US"));
+		selectedLanguage = ResourceBundle.getBundle(Const.bundlePrefix,new Locale(Const.defaultLanguage,Const.defaultCountry));
 	}
 	public GeneralDAO(Connection conn, String language, String country) {
 		this.conn = conn;
-		selectedLanguage = ResourceBundle.getBundle("PURE_HTML",new Locale(language,country));
+		selectedLanguage = ResourceBundle.getBundle(Const.bundlePrefix,new Locale(language,country));
 	}
 }

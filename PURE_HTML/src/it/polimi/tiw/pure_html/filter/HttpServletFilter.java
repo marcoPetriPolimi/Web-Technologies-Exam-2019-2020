@@ -1,5 +1,7 @@
 package it.polimi.tiw.pure_html.filter;
 
+import it.polimi.tiw.pure_html.utils.Const;
+
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -18,9 +20,9 @@ public abstract class HttpServletFilter extends HttpFilter {
 			ServletContext context = config.getServletContext();
 			conn = applyConnection(context);
 		} catch (ClassNotFoundException e) {
-			throw new UnavailableException("Can't find the driver");
+			throw new UnavailableException(Const.unavailableException);
 		} catch (SQLException e) {
-			throw new UnavailableException("Can't connect to the database");
+			throw new UnavailableException(Const.sqlException);
 		}
 	}
 
