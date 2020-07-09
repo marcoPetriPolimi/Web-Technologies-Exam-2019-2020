@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Login page</title>
+	<link rel="stylesheet" type="text/css" href="css/standard.css" data-th-href="@{../css/standard.css}"/>
+</head>
+
+<body>
+	<div class="centeredMainBlock">
+		<form method="POST" data-th-attr="action=@{/index}">
+			<p class="error" data-th-class="${loginError}? 'error' : 'hidden'">The user doesn't exist or you've forgot the password.</p>
+			<input type="number" name="code" placeholder="Codice univoco" data-th-placeholder='${lang.getString("loginCode")}'/>
+			<input type="password" name="password" placeholder="Password" data-th-placeholder='${lang.getString("loginPassword")}'/>
+			<input type="submit" name="login" value="Accesso" data-th-value='${lang.getString("loginLogin")}'/>
+		</form>
+	</div>
+</body>
+
+</html>

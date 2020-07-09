@@ -1,0 +1,62 @@
+body {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: center;
+}
+
+body > div.centeredMainBlock {
+	/* positions, margin */
+	position: relative;
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: column;
+}
+
+/**
+ * https://www.w3.org/TR/css-flexbox-1/
+ */
+body > div.centeredMainBlock > form {
+	/* positions, margin */
+	margin-top: 15px;
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: column;
+}
+
+body > div.centeredMainBlock > form input {
+	/* positions, margin */
+	margin-top: 5px;
+	/* dimensions and padding */
+	/* view */
+	display: block;
+}
+
+body > div.centeredMainBlock > form p {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: left;
+}
+
+/****************************
+ *							*
+ * 			ERRORS			*
+ *							*
+ ****************************/
+.error {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: inline-block;
+	color: rgb(255,0,0);
+}
+
+.hidden {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: none;
+}

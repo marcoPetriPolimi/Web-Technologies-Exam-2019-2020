@@ -6,14 +6,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -22,7 +19,6 @@ import java.util.ResourceBundle;
 public class HttpServletDBConnected extends HttpServlet {
 	protected Connection conn;
 	protected TemplateEngine thymeleaf;
-	protected ResourceBundle lang;
 
 	@Override
 	public void init() throws ServletException {
@@ -35,7 +31,7 @@ public class HttpServletDBConnected extends HttpServlet {
 			ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(context);
 			templateResolver.setTemplateMode(TemplateMode.HTML);
 			templateResolver.setCharacterEncoding("UTF-8");
-			templateResolver.setPrefix("/");
+			templateResolver.setPrefix("/WEB-INF/");
 			templateResolver.setSuffix(".html");
 			thymeleaf = new TemplateEngine();
 			thymeleaf.setTemplateResolver(templateResolver);
@@ -47,16 +43,6 @@ public class HttpServletDBConnected extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		findLanguage(req);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		findLanguage(req);
-	}
-
-	@Override
 	public void destroy() {
 		try {
 			if (conn != null) {
@@ -65,17 +51,20 @@ public class HttpServletDBConnected extends HttpServlet {
 		} catch (SQLException ignored) {}
 	}
 
-	private void findLanguage(HttpServletRequest req) {
+	public static ResourceBundle findLanguage(HttpServletRequest req) {
+		ResourceBundle lang;
+
 		if (Const.acceptedLangTags.contains(req.getLocale().getLanguage())) {
 			String language = req.getLocale().getLanguage();
 			String country = Const.isoTagToCountry.get(language);
-			lang = ResourceBundle.getBundle(Const.bundlePrefix,new Locale(language,country));
+			lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(language,country));
 		} else if (Const.acceptedOldIsoLangTags.contains(req.getLocale().getLanguage())) {
 			String language = Const.oldIsoLangTagsToNew.get(req.getLocale().getLanguage());
 			String country = Const.isoTagToCountry.get(language);
-			lang = ResourceBundle.getBundle(Const.bundlePrefix,new Locale(language,country));
+			lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(language,country));
 		} else {
-			lang = ResourceBundle.getBundle(Const.bundlePrefix,new Locale(Const.defaultLanguage,Const.defaultCountry));
+			lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(Const.defaultLanguage,Const.defaultCountry));
 		}
+		return lang;
 	}
 }

@@ -64,4 +64,13 @@
 		<url-pattern>/success</url-pattern>
 		<url-pattern>/fail</url-pattern>
 	</filter-mapping>
+
+	<!-- ****************************
+	 *								*
+	 *		PAGE ORGANIZATION		*
+	 *								*
+	 ******************************** -->
+	<welcome-file-list>
+		<welcome-file>index</welcome-file>
+	</welcome-file-list>
 </web-app>

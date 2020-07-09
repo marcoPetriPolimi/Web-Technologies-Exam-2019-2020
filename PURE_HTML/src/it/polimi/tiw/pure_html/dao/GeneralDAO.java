@@ -12,10 +12,10 @@ public class GeneralDAO {
 
 	public GeneralDAO(Connection conn) {
 		this.conn = conn;
-		selectedLanguage = ResourceBundle.getBundle(Const.bundlePrefix,new Locale(Const.defaultLanguage,Const.defaultCountry));
+		selectedLanguage = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(Const.defaultLanguage,Const.defaultCountry));
 	}
 	public GeneralDAO(Connection conn, String language, String country) {
 		this.conn = conn;
-		selectedLanguage = ResourceBundle.getBundle(Const.bundlePrefix,new Locale(language,country));
+		selectedLanguage = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(language,country));
 	}
 }

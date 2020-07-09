@@ -75,46 +75,4 @@ public class UserDAO extends GeneralDAO {
 		}
 		return accountsList;
 	}
-
-	public void createUser(String name, String password) throws IllegalArgumentException, SQLException {
-		/* used variables */
-		String userQuery;
-		PreparedStatement userPreparedStatement;
-
-		/* exception handling */
-		if (name.length() > 30 || password.length() > 30) {
-			throw new IllegalArgumentException(selectedLanguage.getString("dbUserWrongParams"));
-		}
-
-		/* main code */
-		userQuery = "INSERT INTO User(Name,Password) VALUES (?,?)";
-		userPreparedStatement = conn.prepareStatement(userQuery);
-		userPreparedStatement.setString(1,name);
-		userPreparedStatement.setString(2,password);
-		userPreparedStatement.executeUpdate();
-	}
-
-	public void modifyPassword(int userCode, String password) throws IllegalArgumentException, SQLException {
-		/* used variables */
-		String userQuery;
-		PreparedStatement userPreparedStatement;
-		ResultSet userResult;
-		User user;
-
-		/* exception handling */
-		if (password.length() > 30) {
-			throw new IllegalArgumentException(selectedLanguage.getString("dbUserWrongParams"));
-		} else {
-			user = findUser(userCode);
-			if (user == null) {
-				throw new IllegalArgumentException(selectedLanguage.getString("dbUserNotExist"));
-			}
-		}
-
-		/* main code */
-		userQuery = "UPDATE User SET Password=? WHERE Id=?";
-		userPreparedStatement = conn.prepareStatement(userQuery);
-		userPreparedStatement.setString(1,password);
-		userPreparedStatement.executeUpdate();
-	}
 }
