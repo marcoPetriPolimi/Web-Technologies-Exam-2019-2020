@@ -19,23 +19,23 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public abstract class HttpServletDBConnected extends HttpServlet {
+public class HttpServletDBConnected extends HttpServlet {
 	protected Connection conn;
 	protected TemplateEngine thymeleaf;
 	protected ResourceBundle lang;
 
 	@Override
-	public void init(ServletConfig config) throws ServletException {
+	public void init() throws ServletException {
 		try {
 			// getting the connection
-			ServletContext context = config.getServletContext();
+			ServletContext context = getServletContext();
 			conn = HttpServletFilter.applyConnection(context);
 
 			// preparing thymeleaf template
 			ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(context);
 			templateResolver.setTemplateMode(TemplateMode.HTML);
 			templateResolver.setCharacterEncoding("UTF-8");
-			templateResolver.setPrefix("/WEB-INF/");
+			templateResolver.setPrefix("/");
 			templateResolver.setSuffix(".html");
 			thymeleaf = new TemplateEngine();
 			thymeleaf.setTemplateResolver(templateResolver);
