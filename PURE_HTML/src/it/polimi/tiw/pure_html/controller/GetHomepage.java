@@ -2,7 +2,6 @@ package it.polimi.tiw.pure_html.controller;
 
 import it.polimi.tiw.pure_html.beans.Account;
 import it.polimi.tiw.pure_html.beans.User;
-import it.polimi.tiw.pure_html.dao.AccountDAO;
 import it.polimi.tiw.pure_html.dao.UserDAO;
 import org.thymeleaf.context.WebContext;
 
@@ -32,15 +31,15 @@ public class GetHomepage extends HttpServletDBConnected {
 			accounts = userDAO.findAccounts(user.getCode());
 			webContext.setVariable("lang",lang);
 			webContext.setVariable("accounts",accounts);
+			thymeleaf.process(page,webContext,resp.getWriter());
 		} catch (SQLException e) {
+			e.printStackTrace();
 			resp.sendRedirect("/error?code=500");
 		}
-
-		thymeleaf.process(page,webContext,resp.getWriter());
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(req, resp);
+		doGet(req, resp);
 	}
 }

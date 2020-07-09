@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Account state</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../css/standard.css" data-th-href="@{../css/standard.css}"/>
+</head>
+
+<body>
+	<div class="centeredMainBlockState">
+		<div class="ingoingTransfers">
+			<h2 data-th-text='${lang.getString("accountStateIngoingHeading")}'>In entrata</h2>
+			<table>
+				<thead>
+					<tr>
+						<th data-th-text='${lang.getString("accountStateTableThSender")}'>Mandante</th>
+						<th data-th-text='${lang.getString("accountStateTableThSenderAccount")}'>Conto mandante</th>
+						<th data-th-text='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
+					</tr>
+				</thead>
+				<tbody data-th-remove="all-but-first">
+					<tr data-th-each="ingoing : ${ingoingTransfers}">
+						<td data-th-text='${ingoing.getOutgoing().getOwner().getCode()}'>5</td>
+						<td data-th-text='${ingoing.getOutgoing().getCode()}'>9000000</td>
+						<td data-th-text='${ingoing.getAmount()}'>9000000</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="outgoingTransfers">
+			<h2 data-th-text='${lang.getString("accountStateOutgoingHeading")}'>In uscita</h2>
+			<table class="accountTable">
+				<thead>
+					<tr>
+						<th data-th-text='${lang.getString("accountStateTableThSender")}'>Ricevente</th>
+						<th data-th-text='${lang.getString("accountStateTableThSenderAccount")}'>Conto ricevente</th>
+						<th data-th-text='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
+					</tr>
+				</thead>
+				<tbody data-th-remove="all-but-first">
+					<tr data-th-each="outgoing : ${outgoingTransfers}">
+						<td data-th-text='${outgoing.getIngoing().getOwner().getCode()}'>5</td>
+						<td data-th-text='${outgoing.getIngoing().getCode()}'>9000000</td>
+						<td data-th-text='${outgoing.getAmount()}'>9000000</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="transfersFormBlock">
+			<h2 data-th-text='${lang.getString("accountStateFormHeading")}'>Form ordinazione</h2>
+			<form method="POST" action="/accountState">
+				<input type="number" min="1" name="recipient" placeholder="Mittente" data-th-placeholder='${lang.getString("accountStateFormRecipient")}' required/>
+				<input type="number" min="1" name="recipientAccount" placeholder="Conto mittente" data-th-placeholder='${lang.getString("accountStateFormRecipientAccount")}' required/>
+				<input type="number" min="1" data-th-max="${accountBalance}" name="amount" placeholder="Ammontare" data-th-placeholder='${lang.getString("accountStateFormAmount")}' required/>
+				<textarea name="reason" maxlength="200" placeholder="Causale" data-th-placeholder='${lang.getString("accountStateFormReason")}'></textarea>
+				<input type="hidden" name="accountCode" data-th-value='${accountCode}'/>
+				<input type="submit" name="order" value="Ordina trasferimento" data-th-value='${lang.getString("accountStateFormOrder")}'>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

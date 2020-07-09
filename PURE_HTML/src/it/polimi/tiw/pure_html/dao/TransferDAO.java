@@ -68,7 +68,7 @@ public class TransferDAO extends GeneralDAO {
 		}
 
 		/* main code */
-		query = "INSERT INTO Transfer (OutgoingAcocunt,IngoingAccount,Date,Amount,Reason) VALUES (?,?,now(),?,?)";
+		query = "INSERT INTO Transfer (OutgoingAccount,IngoingAccount,Date,Amount,Reason) VALUES (?,?,now(),?,?)";
 		preparedStatement = conn.prepareStatement(query);
 		preparedStatement.setInt(1,outgoing);
 		preparedStatement.setInt(2,ingoing);

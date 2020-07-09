@@ -20,4 +20,14 @@ public class Account {
 	public int getBalance() {
 		return balance;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Account) {
+			Account other = (Account) obj;
+			return code == other.code;
+		} else {
+			return false;
+		}
+	}
 }

@@ -40,7 +40,7 @@ public class AccountFilter extends HttpServletFilter {
 		} catch (NumberFormatException e) {
 			resp.sendRedirect("/homepage");
 		} catch (SQLException e) {
-			// TODO: add the error page
+			resp.sendRedirect("/error?code=500");
 		}
 	}
 }

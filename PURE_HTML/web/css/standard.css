@@ -23,10 +23,29 @@ body > div.centeredMainBlock {
 	flex-direction: column;
 }
 
+body > div.centeredMainBlockState {
+	/* positions, margin */
+	position: relative;
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: row;
+}
+
+body > div.centeredMainBlockState > div.ingoingTransfers, body > div.centeredMainBlockState > div.outgoingTransfers, body > div.centeredMainBlockState > div.transfersFormBlock {
+	/* positions, margin */
+	margin-left: 20px;
+	margin-right: 20px;
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: column;
+}
+
 /**
  * https://www.w3.org/TR/css-flexbox-1/
  */
-body > div.centeredMainBlock > form {
+body > div.centeredMainBlock > form, body > div.centeredMainBlockState form {
 	/* positions, margin */
 	margin-top: 15px;
 	/* dimensions and padding */
@@ -35,7 +54,7 @@ body > div.centeredMainBlock > form {
 	flex-direction: column;
 }
 
-body > div.centeredMainBlock > form input {
+body > div.centeredMainBlock > form input, body > div.centeredMainBlockState form input {
 	/* positions, margin */
 	margin-top: 5px;
 	/* dimensions and padding */
@@ -43,29 +62,28 @@ body > div.centeredMainBlock > form input {
 	display: block;
 }
 
-body > div.centeredMainBlock > form p {
+body > div.centeredMainBlock > form p, body > div.centeredMainBlockState form p {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
 	text-align: left;
 }
 
-body > div.centeredMainBlock > h2 {
+body > div.centeredMainBlock > h2, body > div.centeredMainBlockState h2 {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
 	text-align: left;
 }
 
-body > div.centeredMainBlock > table {
+body > div.centeredMainBlock > table, body > div.centeredMainBlockState table {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
 	border-collapse: collapse;
 	border: 1px solid #000000;
 }
-
-body > div.centeredMainBlock > table th, body > div.centeredMainBlock > table td {
+body > div.centeredMainBlock > table th, body > div.centeredMainBlock > table td, body > div.centeredMainBlockState table th, body > div.centeredMainBlockState table td {
 	/* positions, margin */
 	/* dimensions and padding */
 	min-width: 150px;
@@ -76,11 +94,34 @@ body > div.centeredMainBlock > table th, body > div.centeredMainBlock > table td
 	border: 1px solid #000000;
 }
 
-body > div.centeredMainBlock > table td:nth-child(2) {
+body > div.centeredMainBlock > table td, body > div.centeredMainBlockState table td {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
 	text-align: right;
+}
+
+body > div.centeredMainBlock > table td:first-child, body > div.centeredMainBlockState table td:first-child {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: center;
+}
+
+body > div.failPage, body > div.successPage {
+	text-align: left;
+}
+
+body > div.failPage > p, body > div.successPage > p {
+	margin-bottom: 5px;
+}
+
+body > div.failPage > ol {
+	margin-top: 0px;
+}
+
+body > div.successPage > table {
+	margin-bottom: 15px;
 }
 
 /****************************

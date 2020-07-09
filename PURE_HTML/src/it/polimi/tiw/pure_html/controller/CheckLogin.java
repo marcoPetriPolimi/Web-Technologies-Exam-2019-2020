@@ -49,22 +49,23 @@ public class CheckLogin extends HttpServletDBConnected {
 					dataError = true;
 				}
 			} catch (SQLException e) {
+				e.printStackTrace();
 				resp.sendRedirect("/error?code=500");
 			} catch (NumberFormatException e) {
 				loginError = true;
 				dataError = true;
 			}
+
+			// if there has been an error the user is sent back to its initial page
+			if (dataError) {
+				webContext.setVariable("lang",lang);
+				webContext.setVariable("loginError",loginError);
+				thymeleaf.process(loginPage,webContext,resp.getWriter());
+			} else {
+				resp.sendRedirect("/homepage");
+			}
 		} else {
 			resp.sendRedirect("/index");
-		}
-
-		// if there has been an error the user is sent back to its initial page
-		if (dataError) {
-			webContext.setVariable("lang",lang);
-			webContext.setVariable("loginError",loginError);
-			thymeleaf.process(loginPage,webContext,resp.getWriter());
-		} else {
-			resp.sendRedirect("/homepage");
 		}
 	}
 

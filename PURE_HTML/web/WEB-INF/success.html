@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Transfer success</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../css/standard.css" data-th-href="@{../css/standard.css}"/>
+</head>
+
+<body>
+	<div class="centeredMainBlock successPage">
+		<h2 data-th-text='${lang.getString("transferResultSuccess")}'>Trasferimento eseguito</h2>
+		<p data-th-text='${lang.getString("transferResultSuccessText")}'>Il trasferimento è stato eseguito con successo, ecco un riepilogo dello stato dei due conti aggiornato:</p>
+		<table>
+			<thead>
+				<tr>
+					<th data-th-text='${lang.getString("transferResultSuccessOwner")}'>Proprietario</th>
+					<th data-th-text='${lang.getString("transferResultSuccessAccount")}'>Conto</th>
+					<th data-th-text='${lang.getString("transferResultSuccessBalance")}'>Bilancio</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td data-th-text='${account.getOwner().getCode()}'>2</td>
+					<td data-th-text='${account.getCode()}'>120</td>
+					<td data-th-text='${account.getBalance()}'>1000</td>
+				</tr>
+				<tr>
+					<td data-th-text='${recipientAccount.getOwner().getCode()}'>3</td>
+					<td data-th-text='${recipientAccount.getCode()}'>25</td>
+					<td data-th-text='${recipientAccount.getBalance()}'>2500</td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="#" data-th-href='${"/accountState?accountCode="+account.getCode()}' data-th-text='${lang.getString("transferResultComeBack")}'>Torna alla pagina del conto</a>
+	</div>
+</body>
+
+</html>

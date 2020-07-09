@@ -30,7 +30,7 @@ public class User {
 	public boolean equals(Object obj) {
 		if (obj instanceof User) {
 			User other = (User) obj;
-			return code == other.code && name.equals(other.name) && password.equals(other.password);
+			return code == other.code;
 		} else {
 			return false;
 		}
