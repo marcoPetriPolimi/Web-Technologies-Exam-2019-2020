@@ -11,11 +11,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountDAO {
-	private Connection conn;
-
+public class AccountDAO extends GeneralDAO {
 	public AccountDAO(Connection conn) {
-		this.conn = conn;
+		super(conn);
+	}
+	public AccountDAO(Connection conn, String language, String country) {
+		super(conn,language,country);
 	}
 
 	/* **************************
@@ -33,7 +34,7 @@ public class AccountDAO {
 
 		/* exception handling */
 		if (accountCode < 0) {
-			throw new IllegalArgumentException("Invalid account code");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbAccountInvalidCode"));
 		}
 
 		/* main code */
@@ -60,7 +61,7 @@ public class AccountDAO {
 		/* exception handling */
 		account = findAccount(accountCode);
 		if (account == null) {
-			throw new IllegalArgumentException("Account doesn't exist");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbAccountNotExist"));
 		}
 
 		/* main code */
@@ -95,7 +96,7 @@ public class AccountDAO {
 		/* exception handling */
 		account = findAccount(accountCode);
 		if (account == null) {
-			throw new IllegalArgumentException("Account doesn't exist");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbAccountNotExist"));
 		}
 
 		/* main code */

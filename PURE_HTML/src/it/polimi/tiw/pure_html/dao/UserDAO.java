@@ -10,11 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
-	private Connection conn;
-
+public class UserDAO extends GeneralDAO {
 	public UserDAO(Connection conn) {
-		this.conn = conn;
+		super(conn);
+	}
+	public UserDAO(Connection conn, String language, String country) {
+		super(conn,language,country);
 	}
 
 	/* **************************
@@ -30,7 +31,7 @@ public class UserDAO {
 
 		/* exception handling */
 		if (code < 0) {
-			throw new IllegalArgumentException("Invalid code");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbUserInvalidCode"));
 		}
 
 		/* main code */
@@ -55,11 +56,11 @@ public class UserDAO {
 
 		/* exception handling */
 		if (userCode < 0) {
-			throw new IllegalArgumentException("Invalid user code");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbUserInvalidCode"));
 		} else {
 			owner = findUser(userCode);
 			if (owner == null) {
-				throw new IllegalArgumentException("User doesn't exist");
+				throw new IllegalArgumentException(selectedLanguage.getString("dbUserNotExist"));
 			}
 		}
 
@@ -82,7 +83,7 @@ public class UserDAO {
 
 		/* exception handling */
 		if (name.length() > 30 || password.length() > 30) {
-			throw new IllegalArgumentException("Parameters cannot be inserted in the database");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbUserWrongParams"));
 		}
 
 		/* main code */
@@ -102,11 +103,11 @@ public class UserDAO {
 
 		/* exception handling */
 		if (password.length() > 30) {
-			throw new IllegalArgumentException("Parameters cannot be inserted in the database");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbUserWrongParams"));
 		} else {
 			user = findUser(userCode);
 			if (user == null) {
-				throw new IllegalArgumentException("User doesn't exist");
+				throw new IllegalArgumentException(selectedLanguage.getString("dbUserNotExist"));
 			}
 		}
 

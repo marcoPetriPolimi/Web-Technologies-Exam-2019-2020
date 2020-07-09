@@ -8,11 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TransferDAO {
-	private Connection conn;
-
+public class TransferDAO extends GeneralDAO {
 	public TransferDAO(Connection conn) {
-		this.conn = conn;
+		super(conn);
+	}
+	public TransferDAO(Connection conn, String language, String country) {
+		super(conn,language,country);
 	}
 
 	/* **************************
@@ -30,7 +31,7 @@ public class TransferDAO {
 
 		/* exception handling */
 		if (transferId < 0) {
-			throw new IllegalArgumentException("Invalid transfer id");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbTransferInvalidCode"));
 		}
 
 		/* main code */
@@ -57,12 +58,12 @@ public class TransferDAO {
 
 		/* exception handling */
 		if (outgoing < 0 || ingoing < 0 || reason.length() > 200 || amount <= 0) {
-			throw new IllegalArgumentException("Invalid transfer data");
+			throw new IllegalArgumentException(selectedLanguage.getString("dbTransferWrongParams"));
 		} else {
 			outgoingAccount = accountDAO.findAccount(outgoing);
 			ingoingAccount = accountDAO.findAccount(ingoing);
 			if (outgoingAccount == null || ingoingAccount == null) {
-				throw new IllegalArgumentException("One of ingoing or outgoing account doesn't exist");
+				throw new IllegalArgumentException(selectedLanguage.getString("dbTransferIngoingOutgoingError"));
 			}
 		}
 
