@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Home page</title>
+	<link rel="stylesheet" type="text/css" href="../css/standard.css" data-th-href="@{../css/standard.css}"/>
+</head>
+
+<body>
+	<div class="centeredMainBlock">
+		<h2 data-th-text='${lang.getString("homepageSummary")}'>Elenco dei conti</h2>
+		<table class="accountTable">
+			<thead>
+				<tr><th data-th-text='${lang.getString("homepageTableHeadingCode")}'>Codice conto</th><th data-th-text='${lang.getString("homepageTableHeadingBalance")}'>Bilancio</th></tr>
+			</thead>
+			<tbody data-th-remove="all-but-first">
+				<tr data-th-each="account : ${accounts}">
+					<td><a href="#" data-th-text='${account.getCode()}' data-th-href='${"/accountState?accountCode="+account.getCode()}'>25424</a></td>
+					<td data-th-text='${account.getBalance()}'>9000000</td></tr>
+				<tr><td><a href="#">452342</a></td><td>150000</td></tr>
+				<tr><td><a href="#">214524</a></td><td>160000</td></tr>
+				<tr><td><a href="#">1240</a></td><td>850000</td></tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

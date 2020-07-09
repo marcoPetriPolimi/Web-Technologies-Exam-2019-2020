@@ -5,6 +5,15 @@ body {
 	text-align: center;
 }
 
+a {
+	text-decoration: none;
+	color: #2274ff;
+}
+
+a:hover {
+	color: #68a9ee;
+}
+
 body > div.centeredMainBlock {
 	/* positions, margin */
 	position: relative;
@@ -39,6 +48,39 @@ body > div.centeredMainBlock > form p {
 	/* dimensions and padding */
 	/* view */
 	text-align: left;
+}
+
+body > div.centeredMainBlock > h2 {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: left;
+}
+
+body > div.centeredMainBlock > table {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+
+body > div.centeredMainBlock > table th, body > div.centeredMainBlock > table td {
+	/* positions, margin */
+	/* dimensions and padding */
+	min-width: 150px;
+	max-width: 250px;
+	padding: 5px 10px 5px 10px;
+	/* view */
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+
+body > div.centeredMainBlock > table td:nth-child(2) {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: right;
 }
 
 /****************************
