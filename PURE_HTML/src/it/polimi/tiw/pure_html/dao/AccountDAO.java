@@ -66,9 +66,9 @@ public class AccountDAO extends GeneralDAO {
 
 		/* main code */
 		if (outgoing) {
-			query = "SELECT * FROM Transfer WHERE OutgoingAccount=?";
+			query = "SELECT * FROM Transfer WHERE OutgoingAccount=? LIMIT 0,10";
 		} else {
-			query = "SELECT * FROM Transfer WHERE IngoingAccount=?";
+			query = "SELECT * FROM Transfer WHERE IngoingAccount=? LIMIT 0,10";
 		}
 		transfersList = new ArrayList<>();
 		preparedStatement = conn.prepareStatement(query);
@@ -84,6 +84,73 @@ public class AccountDAO extends GeneralDAO {
 			}
 		}
 		return transfersList;
+	}
+	public List<Transfer> findTransfers(int accountCode, boolean outgoing, int page) throws IllegalArgumentException, SQLException {
+		/* used variables */
+		String query;
+		PreparedStatement preparedStatement;
+		ResultSet outTransfers;
+		List<Transfer> transfersList;
+		Account account, otherAccount;
+
+		/* exception handling */
+		account = findAccount(accountCode);
+		if (account == null) {
+			throw new IllegalArgumentException(selectedLanguage.getString("dbAccountNotExist"));
+		} else if (page < 0) {
+			throw new IllegalArgumentException(selectedLanguage.getString("dbPageInvalid"));
+		}
+
+		/* main code */
+		if (outgoing) {
+			query = "SELECT * FROM Transfer WHERE OutgoingAccount=? LIMIT ?,10";
+		} else {
+			query = "SELECT * FROM Transfer WHERE IngoingAccount=? LIMIT ?,10";
+		}
+		transfersList = new ArrayList<>();
+		preparedStatement = conn.prepareStatement(query);
+		preparedStatement.setInt(1,accountCode);
+		preparedStatement.setInt(2,(page-1)*10);
+		outTransfers = preparedStatement.executeQuery();
+		while (outTransfers.next()) {
+			if (outgoing) {
+				otherAccount = findAccount(outTransfers.getInt("IngoingAccount"));
+				transfersList.add(new Transfer(outTransfers.getInt("Id"),account,otherAccount,outTransfers.getTimestamp("Date"),outTransfers.getInt("Amount"),outTransfers.getString("Reason")));
+			} else {
+				otherAccount = findAccount(outTransfers.getInt("OutgoingAccount"));
+				transfersList.add(new Transfer(outTransfers.getInt("Id"),otherAccount,account,outTransfers.getTimestamp("Date"),outTransfers.getInt("Amount"),outTransfers.getString("Reason")));
+			}
+		}
+		return transfersList;
+	}
+
+	public int numberOfTransfers(int accountCode, boolean outgoing) throws IllegalArgumentException, SQLException {
+		/* used variables */
+		String query;
+		PreparedStatement preparedStatement;
+		ResultSet numberOfLines;
+		Account account, otherAccount;
+		int numTransfers = 0;
+
+		/* exception handling */
+		account = findAccount(accountCode);
+		if (account == null) {
+			throw new IllegalArgumentException(selectedLanguage.getString("dbAccountNotExist"));
+		}
+
+		/* main code */
+		if (outgoing) {
+			query = "SELECT count(*) AS num FROM Transfer WHERE OutgoingAccount=?";
+		} else {
+			query = "SELECT count(*) AS num FROM Transfer WHERE IngoingAccount=?";
+		}
+		preparedStatement = conn.prepareStatement(query);
+		preparedStatement.setInt(1,accountCode);
+		numberOfLines = preparedStatement.executeQuery();
+		if (numberOfLines.first()) {
+			numTransfers = numberOfLines.getInt("num");
+		}
+		return numTransfers;
 	}
 
 	public void changeAmount(int accountCode, int amount, boolean add) throws IllegalArgumentException, SQLException {

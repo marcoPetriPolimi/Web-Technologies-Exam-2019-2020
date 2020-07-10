@@ -9,55 +9,96 @@
 </head>
 
 <body>
-	<div class="centeredMainBlockState">
-		<div class="ingoingTransfers">
-			<h2 data-th-text='${lang.getString("accountStateIngoingHeading")}'>In entrata</h2>
-			<table>
-				<thead>
-					<tr>
-						<th data-th-text='${lang.getString("accountStateTableThSender")}'>Mandante</th>
-						<th data-th-text='${lang.getString("accountStateTableThSenderAccount")}'>Conto mandante</th>
-						<th data-th-text='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
-					</tr>
-				</thead>
-				<tbody data-th-remove="all-but-first">
-					<tr data-th-each="ingoing : ${ingoingTransfers}">
-						<td data-th-text='${ingoing.getOutgoing().getOwner().getCode()}'>5</td>
-						<td data-th-text='${ingoing.getOutgoing().getCode()}'>9000000</td>
-						<td data-th-text='${ingoing.getAmount()}'>9000000</td>
-					</tr>
-				</tbody>
-			</table>
+	<div class="centeredMain">
+		<div class="logoutPanel">
+			<a href="/homepage" data-th-utext='${lang.getString("backHomepage")}' class="backHomepage">Back to the homepage</a>
+			<a href="/logout" data-th-utext='${lang.getString("logout")}'>Logout</a>
 		</div>
-		<div class="outgoingTransfers">
-			<h2 data-th-text='${lang.getString("accountStateOutgoingHeading")}'>In uscita</h2>
-			<table class="accountTable">
-				<thead>
+		<div class="centeredMainBlockInline">
+			<div class="infoBox">
+				<h2 data-th-utext='${lang.getString("accountStateOverviewHeading")}'>Informazioni sul conto</h2>
+				<table class="infoTable">
 					<tr>
-						<th data-th-text='${lang.getString("accountStateTableThSender")}'>Ricevente</th>
-						<th data-th-text='${lang.getString("accountStateTableThSenderAccount")}'>Conto ricevente</th>
-						<th data-th-text='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
+						<td data-th-utext='${lang.getString("accountStateOverviewCode")}'>Codice conto:</td><td data-th-utext="${accountCode}">55</td>
 					</tr>
-				</thead>
-				<tbody data-th-remove="all-but-first">
-					<tr data-th-each="outgoing : ${outgoingTransfers}">
-						<td data-th-text='${outgoing.getIngoing().getOwner().getCode()}'>5</td>
-						<td data-th-text='${outgoing.getIngoing().getCode()}'>9000000</td>
-						<td data-th-text='${outgoing.getAmount()}'>9000000</td>
+					<tr>
+						<td data-th-utext='${lang.getString("accountStateOverviewAmount")}'>Disponibilità:</td><td data-th-utext="${accountBalance}">15000</td>
 					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="transfersFormBlock">
-			<h2 data-th-text='${lang.getString("accountStateFormHeading")}'>Form ordinazione</h2>
-			<form method="POST" action="/accountState">
-				<input type="number" min="1" name="recipient" placeholder="Mittente" data-th-placeholder='${lang.getString("accountStateFormRecipient")}' required/>
-				<input type="number" min="1" name="recipientAccount" placeholder="Conto mittente" data-th-placeholder='${lang.getString("accountStateFormRecipientAccount")}' required/>
-				<input type="number" min="1" data-th-max="${accountBalance}" name="amount" placeholder="Ammontare" data-th-placeholder='${lang.getString("accountStateFormAmount")}' required/>
-				<textarea name="reason" maxlength="200" placeholder="Causale" data-th-placeholder='${lang.getString("accountStateFormReason")}'></textarea>
-				<input type="hidden" name="accountCode" data-th-value='${accountCode}'/>
-				<input type="submit" name="order" value="Ordina trasferimento" data-th-value='${lang.getString("accountStateFormOrder")}'>
-			</form>
+				</table>
+			</div>
+			<div class="transfers">
+				<div class="ingoingTransfers">
+					<h2 data-th-utext='${lang.getString("accountStateIngoingHeading")}'>In entrata</h2>
+					<table class="moneyTable">
+						<thead>
+							<tr>
+								<th data-th-utext='${lang.getString("accountStateTableThSender")}'>Mandante</th>
+								<th data-th-utext='${lang.getString("accountStateTableThSenderAccount")}'>Conto mandante</th>
+								<th data-th-utext='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
+								<th data-th-utext='${lang.getString("accountStateTableThDate")}'>Data</th>
+								<th data-th-utext='${lang.getString("accountStateTableThReason")}' class="reason">Causale</th>
+							</tr>
+						</thead>
+						<tbody data-th-remove="all-but-first">
+							<tr data-th-each="ingoing : ${ingoingTransfers}">
+								<td data-th-utext='${ingoing.getOutgoing().getOwner().getCode()}'>5</td>
+								<td data-th-utext='${ingoing.getOutgoing().getCode()}'>9000000</td>
+								<td data-th-utext='${ingoing.getAmount()}'>9000000</td>
+								<td data-th-utext='${ingoing.getStringDate()}'>2020-07-10</td>
+								<td data-th-utext='${ingoing.getReason()}' class="reason">Ragione del trasferimento</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pageNumbers">
+						<a href="#" data-th-if="${ingoingPage > 2}" data-th-href='${"/accountState?accountCode="+accountCode+"&in=1&out="+outgoingPage}'>1 </a>
+						<span data-th-if="${ingoingPage > 3}">... </span>
+						<a href="#" data-th-each="i : ${#numbers.sequence(firstIngoingPage,lastIngoingPage)}" data-th-href='${"/accountState?accountCode="+accountCode+"&in="+i+"&out="+outgoingPage}' data-th-if="${numberOfIngoing > 1}" data-th-utext='${i+" "}'>3</a>
+						<span data-th-if="${(ingoingPage + 1) < (numberOfIngoing - 1)}">... </span>
+						<a href="#" data-th-if="${ingoingPage < (numberOfIngoing - 1)}" data-th-href='${"/accountState?accountCode="+accountCode+"&in="+numberOfIngoing+"&out="+outgoingPage}' data-th-utext="${numberOfIngoing}">10</a>
+					</div>
+				</div>
+				<div class="outgoingTransfers">
+					<h2 data-th-utext='${lang.getString("accountStateOutgoingHeading")}'>In uscita</h2>
+					<table class="moneyTable">
+						<thead>
+							<tr>
+								<th data-th-utext='${lang.getString("accountStateTableThSender")}'>Ricevente</th>
+								<th data-th-utext='${lang.getString("accountStateTableThSenderAccount")}'>Conto ricevente</th>
+								<th data-th-utext='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
+								<th data-th-utext='${lang.getString("accountStateTableThDate")}'>Data</th>
+								<th data-th-utext='${lang.getString("accountStateTableThReason")}' class="reason">Causale</th>
+							</tr>
+						</thead>
+						<tbody data-th-remove="all-but-first">
+							<tr data-th-each="outgoing : ${outgoingTransfers}">
+								<td data-th-utext='${outgoing.getIngoing().getOwner().getCode()}'>5</td>
+								<td data-th-utext='${outgoing.getIngoing().getCode()}'>9000000</td>
+								<td data-th-utext='${outgoing.getAmount()}'>9000000</td>
+								<td data-th-utext='${outgoing.getStringDate()}'>2020-07-10</td>
+								<td data-th-utext='${outgoing.getReason()}' class="reason">Ragione del trasferimento</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pageNumbers">
+						<a href="#" data-th-if="${outgoingPage > 2}" data-th-href='${"/accountState?accountCode="+accountCode+"&in="+ingoingPage+"&out=1"}'>1</a>
+						<span data-th-if="${outgoingPage > 3}">... </span>
+						<a href="#" data-th-each="i : ${#numbers.sequence(firstOutgoingPage,lastOutgoingPage)}" data-th-href='${"/accountState?accountCode="+accountCode+"&in="+ingoingPage+"&out="+i}' data-th-if="${numberOfOutgoing > 1}" data-th-utext='${i+" "}'>3</a>
+						<span data-th-if="${(outgoingPage + 1) < (numberOfOutgoing - 1)}">... </span>
+						<a href="#" data-th-if="${outgoingPage < (numberOfOutgoing - 1)}" data-th-href='${"/accountState?accountCode="+accountCode+"&in="+ingoingPage+"&out="+numberOfOutgoing}' data-th-utext="${numberOfOutgoing}">10</a>
+					</div>
+				</div>
+			</div>
+			<div class="transfersFormBlock">
+				<h2 data-th-utext='${lang.getString("accountStateFormHeading")}'>Form ordinazione</h2>
+				<form method="POST" action="/accountState">
+					<input type="number" min="1" name="recipient" placeholder="Mittente" data-th-placeholder='${lang.getString("accountStateFormRecipient")}' required/>
+					<input type="number" min="1" name="recipientAccount" placeholder="Conto mittente" data-th-placeholder='${lang.getString("accountStateFormRecipientAccount")}' required/>
+					<input type="number" min="1" data-th-max="${accountBalance}" name="amount" placeholder="Ammontare" data-th-placeholder='${lang.getString("accountStateFormAmount")}' required/>
+					<textarea name="reason" maxlength="200" placeholder="Causale" data-th-placeholder='${lang.getString("accountStateFormReason")}'></textarea>
+					<input type="hidden" name="accountCode" data-th-value='${accountCode}'/>
+					<input type="submit" name="order" value="Ordina trasferimento" data-th-value='${lang.getString("accountStateFormOrder")}'>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

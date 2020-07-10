@@ -1,6 +1,7 @@
 package it.polimi.tiw.pure_html.beans;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Transfer {
 	private final int id;
@@ -30,6 +31,10 @@ public class Transfer {
 	}
 	public Timestamp getDatetime() {
 		return datetime;
+	}
+	public String getStringDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return format.format(datetime);
 	}
 	public int getAmount() {
 		return amount;

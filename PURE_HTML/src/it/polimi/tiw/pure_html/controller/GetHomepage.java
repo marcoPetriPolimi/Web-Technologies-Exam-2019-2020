@@ -30,6 +30,7 @@ public class GetHomepage extends HttpServletDBConnected {
 		try {
 			accounts = userDAO.findAccounts(user.getCode());
 			webContext.setVariable("lang",lang);
+			webContext.setVariable("user",user);
 			webContext.setVariable("accounts",accounts);
 			thymeleaf.process(page,webContext,resp.getWriter());
 		} catch (SQLException e) {

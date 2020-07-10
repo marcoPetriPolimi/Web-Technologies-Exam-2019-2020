@@ -53,16 +53,13 @@
 		<url-pattern>/CheckTransfer</url-pattern>
 		<url-pattern>/homepage</url-pattern>
 		<url-pattern>/accountState</url-pattern>
-		<url-pattern>/success</url-pattern>
-		<url-pattern>/fail</url-pattern>
+		<url-pattern>/logout</url-pattern>
 	</filter-mapping>
 
 	<filter-mapping>
 		<filter-name>AccountFilter</filter-name>
 		<url-pattern>/CheckTransfer</url-pattern>
 		<url-pattern>/accountState</url-pattern>
-		<url-pattern>/success</url-pattern>
-		<url-pattern>/fail</url-pattern>
 	</filter-mapping>
 
 	<!-- ****************************

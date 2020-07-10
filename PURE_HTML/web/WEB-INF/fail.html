@@ -9,15 +9,20 @@
 </head>
 
 <body>
-	<div class="centeredMainBlock failPage">
-		<h2 data-th-text='${lang.getString("transferResultFail")}'>Trasferimento fallito</h2>
-		<p data-th-text='${lang.getString("transferResultFailText")}'>I seguenti errori si sono verificati:</p>
-		<ol>
-			<li data-th-text='${lang.getString("errorOrderAutoTransfer")}' data-th-if="${sameAccount}">Non puoi autotrasferiti denaro</li>
-			<li data-th-text='${lang.getString("errorOrderMatch")}' data-th-if="${userAccountMatchError}">Il proprietario dell'account e il codice non combaciano</li>
-			<li data-th-text='${lang.getString("errorOrderAmount")}' data-th-if="${invalidAmount}">L'ammontare inserito non è valido</li>
-		</ol>
-		<a href="#" data-th-href='${"/accountState?accountCode="+account.getCode()}' data-th-text='${lang.getString("transferResultComeBack")}'>Torna alla pagina del conto</a>
+	<div class="centeredMain">
+		<div class="logoutPanel">
+			<a href="/logout" data-th-utext='${lang.getString("logout")}'>Logout</a>
+		</div>
+		<div class="centeredMainBlock failPage">
+			<h2 data-th-utext='${lang.getString("transferResultFail")}'>Trasferimento fallito</h2>
+			<p data-th-utext='${lang.getString("transferResultFailText")}'>I seguenti errori si sono verificati:</p>
+			<ol>
+				<li data-th-utext='${lang.getString("errorOrderAutoTransfer")}' data-th-if="${sameAccount}">Non puoi autotrasferiti denaro</li>
+				<li data-th-utext='${lang.getString("errorOrderMatch")}' data-th-if="${userAccountMatchError}">Il proprietario dell'account e il codice non combaciano</li>
+				<li data-th-utext='${lang.getString("errorOrderAmount")}' data-th-if="${invalidAmount}">L'ammontare inserito non è valido</li>
+			</ol>
+			<a href="#" data-th-href='${"/accountState?accountCode="+account.getCode()}' data-th-utext='${lang.getString("transferResultComeBack")}'>Torna alla pagina del conto</a>
+		</div>
 	</div>
 </body>
 
