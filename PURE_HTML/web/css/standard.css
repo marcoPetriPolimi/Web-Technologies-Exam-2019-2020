@@ -216,6 +216,14 @@ body > div.centeredMain > div.successPage > table {
 	margin-bottom: 15px;
 }
 
+body > div.centeredMain > div.errorPage {
+	text-align: left;
+}
+
+body > div.centeredMain > div.errorPage h2 {
+	align-self: center;
+}
+
 /****************************
  *							*
  * 			ERRORS			*

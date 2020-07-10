@@ -70,4 +70,13 @@
 	<welcome-file-list>
 		<welcome-file>index</welcome-file>
 	</welcome-file-list>
+
+	<!-- ****************************
+	 *								*
+	 *		ERROR ORGANIZATION		*
+	 *								*
+	 ******************************** -->
+	<error-page>
+		<location>/errorHandler</location>
+	</error-page>
 </web-app>

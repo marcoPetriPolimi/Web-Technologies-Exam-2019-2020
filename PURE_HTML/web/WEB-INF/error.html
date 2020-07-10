@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Error page</title>
+	<link rel="stylesheet" type="text/css" href="../css/standard.css" data-th-href="@{../css/standard.css}"/>
+</head>
+
+<body>
+	<div class="centeredMain">
+		<div class="centeredMainBlock errorPage">
+			<h2 data-th-utext='${lang.getString("error"+errorCode)}'>Si è verificato l'errore 500</h2>
+			<a href="/index" data-th-if="${!logged}" data-th-utext='${lang.getString("errorPageLogin")}'>Torna alla pagina principale</a>
+			<a href="/homepage" data-th-if="${logged}" data-th-utext='${lang.getString("errorPageHomepage")}'>Torna all'homepage</a>
+		</div>
+	</div>
+</body>
+
+</html>
