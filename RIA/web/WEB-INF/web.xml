@@ -33,12 +33,20 @@
 	 *		SERVLET FILTERS			*
 	 *								*
 	 ******************************** -->
+	<filter>
+		<filter-name>UserFilter</filter-name>
+		<filter-class>it.polimi.tiw.ria.filter.UserFilter</filter-class>
+	</filter>
 
 	<!-- ****************************
 	 *								*
 	 *	SERVLET FILTERS MAPPING		*
 	 *								*
 	 ******************************** -->
+	<filter-mapping>
+		<filter-name>UserFilter</filter-name>
+		<url-pattern>/activePage</url-pattern>
+	</filter-mapping>
 
 	<!-- ****************************
 	 *								*

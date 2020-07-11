@@ -12,6 +12,13 @@
 (function() {
 	var informationHolder;
 
+	/********************************
+	 * 								*
+	 * 								*
+	 *   SERVER RESPONSE GETTERS	*
+	 * 								*
+	 * 								*
+	 ********************************/
 	function loginResponse(resp) {
 		if (resp.readyState == XMLHttpRequest.DONE) {
 			var jsonReceived = JSON.parse(resp.responseText);
@@ -62,6 +69,13 @@
 		}
 	}
 
+	/********************************
+	 * 								*
+	 * 								*
+	 *  	 EVENT RESPONDERS		*
+	 * 								*
+	 * 								*
+	 ********************************/
 	function loginClick(e) {
 		var enclosingForm = e.target.closest("form");
 
