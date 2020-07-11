@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Application</title>
+	<link rel="stylesheet" type="text/css" href="../css/standard.css" data-th-href="@{../css/standard.css}"/>
+	<script src="../javascript/Core.js" data-th-href="@{../javascript/Core.js}" charset="UTF-8" defer></script>
+	<script src="../javascript/Login.js" data-th-href="@{../javascript/ActivePage.js}" charset="UTF-8" defer></script>
+</head>
+
+<body>
+	<div class="centeredMain">
+		<div class="logoutPanel">
+			<a href="#" data-th-utext='${lang.getString("showHomepage")}' class="backHomepage hidden" id="showHomepage">Show accounts</a>
+			<a href="#" data-th-utext='${lang.getString("logout")}' id="logoutButton">Logout</a>
+		</div>
+		<div class="centeredMainBlockInline">
+			<div class="infoBox" id="homepageInfoBox">
+				<h2 data-th-utext='${lang.getString("homepageOverviewHeading")}'>Informazioni sul profilo</h2>
+				<table class="infoTable">
+					<tr>
+						<td data-th-utext='${lang.getString("homepageOverviewCode")}'>Codice utente:</td><td data-th-utext="${user.getCode()}">1</td>
+					</tr>
+					<tr>
+						<td data-th-utext='${lang.getString("homepageOverviewName")}'>Nome:</td><td data-th-utext="${user.getName()}">Marco</td>
+					</tr>
+				</table>
+			</div>
+			<div class="accountOwned" id="homepageAccounts">
+				<h2 data-th-utext='${lang.getString("homepageSummary")}'>Elenco dei conti</h2>
+				<table class="moneyTable">
+					<thead>
+						<tr><th data-th-utext='${lang.getString("homepageTableHeadingCode")}'>Codice conto</th><th data-th-utext='${lang.getString("homepageTableHeadingBalance")}'>Disponibilità</th></tr>
+					</thead>
+					<tbody data-th-remove="all-but-first">
+						<tr data-th-each="account : ${accounts}">
+							<td><a href="#" data-th-utext='${account.getCode()}'>25424</a></td>
+							<td data-th-utext='${account.getBalance()}'>9000000</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="infoBox hidden" id="accountStateInfoBox">
+				<h2 data-th-utext='${lang.getString("accountStateOverviewHeading")}'>Informazioni sul conto</h2>
+				<table class="infoTable">
+					<tr>
+						<td data-th-utext='${lang.getString("accountStateOverviewCode")}'>Codice conto:</td><td>55</td>
+					</tr>
+					<tr>
+						<td data-th-utext='${lang.getString("accountStateOverviewAmount")}'>Disponibilità:</td><td>15000</td>
+					</tr>
+				</table>
+			</div>
+			<div class="transfers hidden" id="accountStateTransfers">
+				<div class="ingoingTransfers">
+					<h2 data-th-utext='${lang.getString("accountStateIngoingHeading")}'>In entrata</h2>
+					<table class="moneyTable">
+						<thead>
+							<tr>
+								<th data-th-utext='${lang.getString("accountStateTableThSender")}'>Mandante</th>
+								<th data-th-utext='${lang.getString("accountStateTableThSenderAccount")}'>Conto mandante</th>
+								<th data-th-utext='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
+								<th data-th-utext='${lang.getString("accountStateTableThDate")}'>Data</th>
+								<th data-th-utext='${lang.getString("accountStateTableThReason")}' class="reason">Causale</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>5</td>
+								<td>9000000</td>
+								<td>9000000</td>
+								<td>2020-07-10</td>
+								<td class="reason">Ragione del trasferimento</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pageNumbers" id="accountStatePageNumbersIngoing">
+						<a href="#">1 </a>
+						<span>... </span>
+						<a href="#">3</a>
+						<span>... </span>
+						<a href="#">10</a>
+					</div>
+				</div>
+				<div class="outgoingTransfers">
+					<h2 data-th-utext='${lang.getString("accountStateOutgoingHeading")}'>In uscita</h2>
+					<table class="moneyTable">
+						<thead>
+							<tr>
+								<th data-th-utext='${lang.getString("accountStateTableThSender")}'>Ricevente</th>
+								<th data-th-utext='${lang.getString("accountStateTableThSenderAccount")}'>Conto ricevente</th>
+								<th data-th-utext='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
+								<th data-th-utext='${lang.getString("accountStateTableThDate")}'>Data</th>
+								<th data-th-utext='${lang.getString("accountStateTableThReason")}' class="reason">Causale</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>5</td>
+								<td>9000000</td>
+								<td>9000000</td>
+								<td>2020-07-10</td>
+								<td class="reason">Ragione del trasferimento</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pageNumbers" id="accountStatePageNumbersOutgoing">
+						<a href="#">1</a>
+						<span>... </span>
+						<a href="#">3</a>
+						<span>... </span>
+						<a href="#">10</a>
+					</div>
+				</div>
+			</div>
+			<div class="transfersFormBlock hidden" id="accountStateForm">
+				<h2 data-th-utext='${lang.getString("accountStateFormHeading")}'>Form ordinazione</h2>
+				<form method="POST" action="/accountState">
+					<input type="number" min="1" name="recipient" placeholder="Mittente" data-th-placeholder='${lang.getString("accountStateFormRecipient")}' required/>
+					<input type="number" min="1" name="recipientAccount" placeholder="Conto mittente" data-th-placeholder='${lang.getString("accountStateFormRecipientAccount")}' required/>
+					<input type="number" min="1" name="amount" placeholder="Ammontare" data-th-placeholder='${lang.getString("accountStateFormAmount")}'  id="accountStateFormAmount" required/>
+					<textarea name="reason" maxlength="200" placeholder="Causale" data-th-placeholder='${lang.getString("accountStateFormReason")}'></textarea>
+					<input type="hidden" name="accountCode" id="accountStateFormHiddenCode"/>
+					<input type="button" name="order" value="Ordina trasferimento" data-th-value='${lang.getString("accountStateFormOrder")}'>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="hidden" id="greyBackground"></div>
+	<div class="hidden" id="popupError">
+		<p id="popupErrorText"></p><br/>
+		<a href="#" id="popupErrorClose">Close popup error message</a>
+	</div>
+</body>
+
+</html>

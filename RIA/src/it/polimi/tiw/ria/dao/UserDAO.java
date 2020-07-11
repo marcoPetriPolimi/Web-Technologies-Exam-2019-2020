@@ -45,6 +45,28 @@ public class UserDAO extends GeneralDAO {
 			return null;
 		}
 	}
+	public User findUser(String username) throws IllegalArgumentException, SQLException {
+		/* used variables */
+		String query;
+		PreparedStatement preparedStatement;
+		ResultSet result;
+
+		/* exception handling */
+		if (username == null || username.length() == 0) {
+			throw new IllegalArgumentException(selectedLanguage.getString("dbUserInvalidCode"));
+		}
+
+		/* main code */
+		query = "SELECT * FROM User WHERE Name=?";
+		preparedStatement = conn.prepareStatement(query);
+		preparedStatement.setString(1,username);
+		result = preparedStatement.executeQuery();
+		if (result.first()) {
+			return new User(result.getInt("Id"),result.getString("Email"),result.getString("Name"),result.getString("Password"));
+		} else {
+			return null;
+		}
+	}
 
 	public List<Account> findAccounts(int userCode) throws IllegalArgumentException, SQLException {
 		/* used variables */

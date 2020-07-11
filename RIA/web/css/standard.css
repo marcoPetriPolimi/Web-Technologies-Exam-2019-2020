@@ -229,6 +229,41 @@ body > div.centeredMain > div.errorPage h2 {
  * 			ERRORS			*
  *							*
  ****************************/
+div#popupError {
+	/* positions, margin */
+	position: fixed;
+	left: calc((100% - 400px)/2);
+	top: 10%;
+	/* dimensions and padding */
+	padding: 30px;
+	width: 400px;
+	min-height: 200px;
+	/* view */
+	word-wrap: break-word;
+	border-radius: 15px;
+	background-color: #ffffff;
+	text-align: left;
+}
+
+div#greyBackground {
+	/* positions, margin */
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	/* dimensions and padding */
+	width: 100%;
+	height: 100%;
+	/* view */
+	background-color: rgba(0,0,0,0.5);
+}
+
+div#accountStateInfoBox, div#accountStateTransfers, div#accountStateForm {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: none;
+}
+
 .error {
 	/* positions, margin */
 	/* dimensions and padding */
@@ -237,9 +272,24 @@ body > div.centeredMain > div.errorPage h2 {
 	color: rgb(255,0,0);
 }
 
+.success {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: inline-block;
+	color: rgb(19, 163, 22);
+}
+
 .hidden {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
 	display: none;
+}
+
+.display {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: block;
 }
