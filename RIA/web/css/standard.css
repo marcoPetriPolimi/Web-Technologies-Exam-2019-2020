@@ -1,0 +1,245 @@
+body {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+	color: #2274ff;
+}
+
+a:hover {
+	color: #68a9ee;
+}
+
+body > div.centeredMain {
+	/* positions, margin */
+	position: relative;
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: column;
+}
+
+body > div.centeredMain > div.logoutPanel {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: right;
+}
+
+body > div.centeredMain > div.centeredMainBlock {
+	/* positions, margin */
+	position: relative;
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: column;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline {
+	/* positions, margin */
+	position: relative;
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: row;
+}
+
+body > div.centeredMain > div.logoutPanel > a.backHomepage {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	float: left;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div {
+	/* positions, margin */
+	margin-right: 30px;
+	/* dimensions and padding */
+	/* view */
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div:last-child {
+	/* positions, margin */
+	margin-right: 0px;
+	/* dimensions and padding */
+	/* view */
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.infoBox {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: column;
+	text-align: left;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.infoBox > table.infoTable {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: inline-block;
+	border: none;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.infoBox > table.infoTable tr td {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	border: none;
+	text-align: left;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.transfers {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: column;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.ingoingTransfers, body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.outgoingTransfers, body > div.centeredMain > div.centeredMainBlockInline > div.transfersFormBlock {
+	/* positions, margin */
+	margin-left: 20px;
+	margin-right: 20px;
+	/* dimensions and padding */
+	/* view */
+	display: block;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.ingoingTransfers > div.pageNumbers, body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.outgoingTransfers > div.pageNumbers {
+	/* positions, margin */
+	margin-top: 10px;
+	/* dimensions and padding */
+	/* view */
+	text-align: right;
+}
+
+/**
+ * https://www.w3.org/TR/css-flexbox-1/
+ */
+body > div.centeredMain > div.centeredMainBlock > form, body > div.centeredMain > div.centeredMainBlockInline form {
+	/* positions, margin */
+	margin-top: 15px;
+	/* dimensions and padding */
+	/* view */
+	display: inline-flex;
+	flex-direction: column;
+}
+
+body > div.centeredMain > div.centeredMainBlock > form input, body > div.centeredMain > div.centeredMainBlockInline form input {
+	/* positions, margin */
+	margin-top: 5px;
+	/* dimensions and padding */
+	/* view */
+	display: block;
+}
+
+body > div.centeredMain > div.centeredMainBlock > form p, body > div.centeredMain > div.centeredMainBlockInline form p {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: left;
+}
+
+body > div.centeredMain > div.centeredMainBlock > h2, body > div.centeredMain > div.centeredMainBlockInline h2 {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: left;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable, body > div.centeredMain > div.centeredMainBlock table.moneyTable {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable th, body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable th, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td, body > div.centeredMain > div.centeredMainBlock table.moneyTable th, body > div.centeredMain > div.centeredMainBlock table.moneyTable td {
+	/* positions, margin */
+	/* dimensions and padding */
+	min-width: 100px;
+	max-width: 250px;
+	padding: 5px 10px 5px 10px;
+	/* view */
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline table.moneyTable th.reason, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td.reason {
+	/* positions, margin */
+	/* dimensions and padding */
+	max-width: 200px;
+	/* view */
+	word-wrap: break-word;
+}
+
+body > div.centeredMain > div.successPage table.moneyTable th {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: center;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td, body > div.centeredMain > div.centeredMainBlock table.moneyTable td {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: right;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td:first-child, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td:first-child, body > div.centeredMain > div.centeredMainBlock table.moneyTable td:first-child {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	text-align: center;
+}
+
+body > div.centeredMain > div.failPage, body > div.centeredMain > div.successPage {
+	text-align: left;
+}
+
+body > div.centeredMain > div.failPage > p, body > div.centeredMain > div.successPage > p {
+	margin-bottom: 5px;
+}
+
+body > div.centeredMain > div.failPage > ol {
+	margin-top: 0px;
+}
+
+body > div.centeredMain > div.successPage > table {
+	margin-bottom: 15px;
+}
+
+body > div.centeredMain > div.errorPage {
+	text-align: left;
+}
+
+body > div.centeredMain > div.errorPage h2 {
+	align-self: center;
+}
+
+/****************************
+ *							*
+ * 			ERRORS			*
+ *							*
+ ****************************/
+.error {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: inline-block;
+	color: rgb(255,0,0);
+}
+
+.hidden {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	display: none;
+}

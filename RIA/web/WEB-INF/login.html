@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Login page</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="../css/standard.css" data-th-href="@{../css/standard.css}"/>
+	<script type="text/javascript" src="../javascript/Core.js" data-th-href="@{../javascript/Core.js}"></script>
+	<script type="text/javascript" src="../javascript/Login.js" data-th-href="@{../javascript/Login.js}"></script>
+</head>
+
+<body>
+	<div class="centeredMain">
+		<div class="centeredMainBlock">
+			<form method="POST" data-th-attr="action=@{/index}">
+				<p class="hidden" id="LoginError"></p>
+				<input type="text" minlength="1" maxlength="30" name="username" placeholder="Nome univoco" data-th-placeholder='${lang.getString("loginCode")}' required/>
+				<input type="password" name="password" placeholder="Password" data-th-placeholder='${lang.getString("loginPassword")}' required/>
+				<input type="button" id="LoginSubmit" name="login" value="Accesso" data-th-value='${lang.getString("loginLogin")}'/>
+			</form>
+
+			<form method="POST" data-th-attr="action=@{/index}">
+				<p class="hidden" id="RegistrationError"></p>
+				<input type="text" minlength="1" maxlength="30" name="username" placeholder="Nome univoco" data-th-placeholder='${lang.getString("loginName")}' required/>
+				<input type="email" name="email" placeholder="email" data-th-placeholder='${lang.getString("loginEmail")}' required/>
+				<input type="password" name="password" placeholder="Password" data-th-placeholder='${lang.getString("loginPassword")}' required/>
+				<input type="password" name="repeatedPwd" placeholder="Ripeti password" data-th-placeholder='${lang.getString("loginRepeatPassword")}' required/>
+				<input type="button" id="RegistrationSubmit" name="register" value="Registrazione" data-th-value='${lang.getString("loginRegistration")}'/>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>
