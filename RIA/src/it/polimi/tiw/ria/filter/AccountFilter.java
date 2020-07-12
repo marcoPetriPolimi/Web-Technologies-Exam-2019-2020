@@ -55,6 +55,7 @@ public class AccountFilter extends HttpServletFilter {
 			jsonResponse = gson.toJson(filterMessage);
 			resp.getWriter().write(jsonResponse);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
 			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

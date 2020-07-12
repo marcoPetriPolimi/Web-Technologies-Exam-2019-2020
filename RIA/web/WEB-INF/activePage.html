@@ -19,10 +19,10 @@
 			<div class="infoBox" id="homepageInfoBox">
 				<h2 data-th-utext='${lang.getString("homepageOverviewHeading")}'>Informazioni sul profilo</h2>
 				<table class="infoTable">
-					<tr>
+					<tr id="homepageInfoBoxCode">
 						<td data-th-utext='${lang.getString("homepageOverviewCode")}'>Codice utente:</td><td data-th-utext="${user.getCode()}">1</td>
 					</tr>
-					<tr>
+					<tr id="homepageInfoBoxName">
 						<td data-th-utext='${lang.getString("homepageOverviewName")}'>Nome:</td><td data-th-utext="${user.getName()}">Marco</td>
 					</tr>
 				</table>
@@ -33,7 +33,7 @@
 					<thead>
 						<tr><th data-th-utext='${lang.getString("homepageTableHeadingCode")}'>Codice conto</th><th data-th-utext='${lang.getString("homepageTableHeadingBalance")}'>Disponibilità</th></tr>
 					</thead>
-					<tbody data-th-remove="all-but-first">
+					<tbody>
 						<tr data-th-each="account : ${accounts}">
 							<td><a href="#" data-th-utext='${account.getCode()}'>25424</a></td>
 							<td data-th-utext='${account.getBalance()}'>9000000</td>
@@ -46,10 +46,10 @@
 				<h2 data-th-utext='${lang.getString("accountStateOverviewHeading")}'>Informazioni sul conto</h2>
 				<table class="infoTable">
 					<tr>
-						<td data-th-utext='${lang.getString("accountStateOverviewCode")}'>Codice conto:</td><td>55</td>
+						<td data-th-utext='${lang.getString("accountStateOverviewCode")}'>Codice conto:</td><td id="infoTableAccount">55</td>
 					</tr>
 					<tr>
-						<td data-th-utext='${lang.getString("accountStateOverviewAmount")}'>Disponibilità:</td><td>15000</td>
+						<td data-th-utext='${lang.getString("accountStateOverviewAmount")}'>Disponibilità:</td><td id="infoTableAmount">15000</td>
 					</tr>
 				</table>
 			</div>
@@ -123,7 +123,7 @@
 					<input type="number" min="1" name="amount" placeholder="Ammontare" data-th-placeholder='${lang.getString("accountStateFormAmount")}'  id="accountStateFormAmount" required/>
 					<textarea name="reason" maxlength="200" placeholder="Causale" data-th-placeholder='${lang.getString("accountStateFormReason")}'></textarea>
 					<input type="hidden" name="accountCode" id="accountStateFormHiddenCode"/>
-					<input type="button" name="order" value="Ordina trasferimento" data-th-value='${lang.getString("accountStateFormOrder")}'>
+					<input type="button" value="Ordina trasferimento" data-th-value='${lang.getString("accountStateFormOrder")}'>
 				</form>
 			</div>
 		</div>
