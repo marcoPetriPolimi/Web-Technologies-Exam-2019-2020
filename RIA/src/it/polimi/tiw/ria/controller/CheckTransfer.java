@@ -9,9 +9,7 @@ import it.polimi.tiw.ria.dao.UserDAO;
 import it.polimi.tiw.ria.utils.Const;
 import it.polimi.tiw.ria.utils.ErrorMessage;
 import it.polimi.tiw.ria.utils.TransferSuccess;
-import org.thymeleaf.context.WebContext;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -23,13 +21,10 @@ import java.util.ResourceBundle;
 
 @WebServlet("/orderTransfer")
 @MultipartConfig
-public class CheckTransfer extends HttpServletThymeleaf {
+public class CheckTransfer extends HttpServletDBConnected {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ResourceBundle lang = findLanguage(req);
-		ServletContext context = getServletContext();
-		WebContext webContext = new WebContext(req,resp,context);
-		String fail = "fail", success = "success";
+		ResourceBundle lang = HttpServletThymeleaf.findLanguage(req);
 		UserDAO userDAO = new UserDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());
 		AccountDAO accountDAO = new AccountDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());
 		TransferDAO transferDAO = new TransferDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());

@@ -52,7 +52,10 @@
 	<filter-mapping>
 		<filter-name>UserFilter</filter-name>
 		<url-pattern>/activePage</url-pattern>
+		<url-pattern>/accountState</url-pattern>
+		<url-pattern>/orderTransfer</url-pattern>
 		<url-pattern>/getUserInfo</url-pattern>
+		<url-pattern>/getTransfers</url-pattern>
 	</filter-mapping>
 
 
@@ -60,6 +63,7 @@
 		<filter-name>AccountFilter</filter-name>
 		<url-pattern>/accountState</url-pattern>
 		<url-pattern>/orderTransfer</url-pattern>
+		<url-pattern>/getTransfers</url-pattern>
 	</filter-mapping>
 
 	<!-- ****************************

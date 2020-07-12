@@ -32,7 +32,7 @@
 				elem.addEventListener("click",ingoingTransferPageClick);
 			});
 			document.querySelectorAll("#accountStatePageNumbersOutgoing a").forEach(function(elem) {
-				elem.addEventListener("click",ingoingTransferPageClick);
+				elem.addEventListener("click",outgoingTransferPageClick);
 			});
 			document.querySelector("#accountStateForm form input[type=button]").addEventListener("click",orderTransferClick);
 
@@ -89,9 +89,13 @@
 		loadIngoingTransfers(infoHolder) {
 			var ingoingTransfersTable, ingoingTransfersTableBody, ingoingPages;
 
+			ingoingPages = document.querySelector("#accountStateTransfers div.ingoingTransfers div.pageNumbers");
 			ingoingTransfersTable = document.querySelector("#accountStateTransfers div.ingoingTransfers table.moneyTable");
 			ingoingTransfersTableBody = document.querySelector("#accountStateTransfers div.ingoingTransfers table.moneyTable tbody");
 			ingoingTransfersTableBody.innerHTML = "";
+			ingoingPages.innerHTML = "";
+
+			// loads and writes each transfer present in the user view
 			for (let i = 0; i < infoHolder.getIngoingTransfers().length; i++) {
 				let row = document.createElement("tr");
 				let sender = document.createElement("td");
@@ -113,13 +117,54 @@
 				row.append(date);
 				row.append(reason);
 			}
+
+			// updates the number of pages on the bottom of the transfer table
+			let startPage, endPage;
+			startPage = infoHolder.getInPage() >= 2 ? infoHolder.getInPage()-1 : 1;
+			endPage = infoHolder.getInPage() < infoHolder.getIngoingPages() ? infoHolder.getInPage()+1 : infoHolder.getInPage();
+			if (infoHolder.getInPage() > 2) {
+				let first = document.createElement("a");
+				first.href = "#";
+				first.textContent = "1 ";
+				ingoingPages.append(first);
+			}
+			if (infoHolder.getInPage() > 3) {
+				let points = document.createElement("span");
+				points.textContent = "... ";
+				ingoingPages.append(points);
+			}
+			for (let i = startPage; i <= endPage; i++) {
+				let page = document.createElement("a");
+				page.href = "#";
+				page.textContent = i+" ";
+				ingoingPages.append(page);
+			}
+			if (infoHolder.getInPage()+1 < infoHolder.getIngoingPages()-1) {
+				let points = document.createElement("span");
+				points.textContent = "... ";
+				ingoingPages.append(points);
+			}
+			if (infoHolder.getInPage()+1 < infoHolder.getIngoingPages()) {
+				let last = document.createElement("a");
+				last.href = "#";
+				last.textContent = infoHolder.getIngoingPages();
+				ingoingPages.append(last);
+			}
+
+			document.querySelectorAll("#accountStatePageNumbersIngoing a").forEach(function(elem) {
+				elem.addEventListener("click",ingoingTransferPageClick);
+			});
 		}
 		loadOutgoingTransfers(infoHolder) {
 			var outgoingTransfersTable, outgoingTransfersTableBody, outgoingPages;
 
+			outgoingPages = document.querySelector("#accountStateTransfers div.outgoingTransfers div.pageNumbers");
 			outgoingTransfersTable = document.querySelector("#accountStateTransfers div.outgoingTransfers table.moneyTable");
 			outgoingTransfersTableBody = document.querySelector("#accountStateTransfers div.outgoingTransfers table.moneyTable tbody");
 			outgoingTransfersTableBody.innerHTML = "";
+			outgoingPages.innerHTML = "";
+
+			// loads and writes each transfer present in the user view
 			for (let i = 0; i < infoHolder.getOutgoingTransfers().length; i++) {
 				let row = document.createElement("tr");
 				let sender = document.createElement("td");
@@ -127,8 +172,8 @@
 				let amount = document.createElement("td");
 				let date = document.createElement("td");
 				let reason = document.createElement("td");
-				sender.textContent = infoHolder.getOutgoingTransfers()[i]["outgoing"]["owner"]["code"];
-				senderAccount.textContent = infoHolder.getOutgoingTransfers()[i]["outgoing"]["code"];
+				sender.textContent = infoHolder.getOutgoingTransfers()[i]["ingoing"]["owner"]["code"];
+				senderAccount.textContent = infoHolder.getOutgoingTransfers()[i]["ingoing"]["code"];
 				amount.textContent = infoHolder.getOutgoingTransfers()[i]["amount"];
 				date.textContent = infoHolder.getOutgoingTransfers()[i]["datetime"];
 				reason.textContent = infoHolder.getOutgoingTransfers()[i]["reason"];
@@ -141,9 +186,48 @@
 				row.append(date);
 				row.append(reason);
 			}
+
+			// updates the number of pages on the bottom of the transfer table
+			let startPage, endPage;
+			startPage = infoHolder.getOutPage() >= 2 ? infoHolder.getOutPage()-1 : 1;
+			endPage = infoHolder.getOutPage() < infoHolder.getOutgoingPages() ? infoHolder.getOutPage()+1 : infoHolder.getOutPage();
+			if (infoHolder.getOutPage() > 2) {
+				let first = document.createElement("a");
+				first.href = "#";
+				first.textContent = "1 ";
+				outgoingPages.append(first);
+			}
+			if (infoHolder.getOutPage() > 3) {
+				let points = document.createElement("span");
+				points.textContent = "... ";
+				outgoingPages.append(points);
+			}
+			for (let i = startPage; i <= endPage; i++) {
+				let page = document.createElement("a");
+				page.href = "#";
+				page.textContent = i+" ";
+				outgoingPages.append(page);
+			}
+			if (infoHolder.getOutPage()+1 < infoHolder.getOutgoingPages()-1) {
+				let points = document.createElement("span");
+				points.textContent = "... ";
+				outgoingPages.append(points);
+			}
+			if (infoHolder.getOutPage()+1 < infoHolder.getOutgoingPages()) {
+				let last = document.createElement("a");
+				last.href = "#";
+				last.textContent = infoHolder.getOutgoingPages();
+				outgoingPages.append(last);
+			}
+
+			document.querySelectorAll("#accountStatePageNumbersOutgoing a").forEach(function(elem) {
+				elem.addEventListener("click",outgoingTransferPageClick);
+			});
 		}
 		orderRefresh(infoHolder) {
-
+			document.getElementById("infoTableAmount").textContent = infoHolder.getAccountInfo()["balance"];
+			this.loadIngoingTransfers(infoHolder);
+			this.loadOutgoingTransfers(infoHolder);
 		}
 		showError(infoHolder, error) {
 			document.querySelector("#popupError h2").className = "";
@@ -163,9 +247,10 @@
 		}
 		showSuccess(infoHolder) {
 			document.querySelector("#popupError h2").className = "";
+			document.getElementById("successTable").className = "moneyTable";
 			document.querySelector("#popupError h2").textContent = infoHolder.getLang()["transferResultSuccess"];
 			let successText = document.getElementById("popupErrorText");
-			let table = document.createElement("table");
+			let table = document.getElementById("successTable");
 			let thead = document.createElement("thead");
 			let tbody = document.createElement("tbody");
 			let row1 = document.createElement("tr");
@@ -181,6 +266,7 @@
 			let tdAccount2 = document.createElement("td");
 			let tdBalance2 = document.createElement("td");
 
+			table.innerHTML = "";
 			table.append(thead);
 			table.append(tbody);
 			thead.append(row1);
@@ -195,7 +281,6 @@
 			row3.append(tdOwner2);
 			row3.append(tdAccount2);
 			row3.append(tdBalance2);
-			successText.append(table);
 
 			successText.innerHTML = "";
 			successText.textContent = infoHolder.getLang()["transferResultSuccessText"];
@@ -315,10 +400,62 @@
 		}
 	}
 	function ingoingTransferPageResponse(resp) {
+		if (resp.readyState == XMLHttpRequest.DONE) {
+			var objectReceived = JSON.parse(resp.responseText);
 
+			switch (resp.status) {
+				case 200:
+					informationHolder.setLang(objectReceived.keys);
+					informationHolder.setIngoingTransfers(objectReceived.transfers);
+					informationHolder.setIngoingPages(objectReceived.transferPages);
+					informationHolder.setInPage(objectReceived.transferPage);
+					pageManager.loadIngoingTransfers(informationHolder);
+					break;
+
+				case 401:
+					document.getElementById("greyBackground").className = "display";
+					document.getElementById("popupError").className = "display";
+					document.getElementById("popupErrorText").innerHTML = "";
+					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error401;
+					break;
+
+				case 500:
+					document.getElementById("greyBackground").className = "display";
+					document.getElementById("popupError").className = "display";
+					document.getElementById("popupErrorText").innerHTML = "";
+					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					break;
+			}
+		}
 	}
 	function outgoingTransferPageResponse(resp) {
+		if (resp.readyState == XMLHttpRequest.DONE) {
+			var objectReceived = JSON.parse(resp.responseText);
 
+			switch (resp.status) {
+				case 200:
+					informationHolder.setLang(objectReceived.keys);
+					informationHolder.setOutgoingTransfers(objectReceived.transfers);
+					informationHolder.setOutgoingPages(objectReceived.transferPages);
+					informationHolder.setOutPage(objectReceived.transferPage);
+					pageManager.loadOutgoingTransfers(informationHolder);
+					break;
+
+				case 401:
+					document.getElementById("greyBackground").className = "display";
+					document.getElementById("popupError").className = "display";
+					document.getElementById("popupErrorText").innerHTML = "";
+					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error401;
+					break;
+
+				case 500:
+					document.getElementById("greyBackground").className = "display";
+					document.getElementById("popupError").className = "display";
+					document.getElementById("popupErrorText").innerHTML = "";
+					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					break;
+			}
+		}
 	}
 	function orderTransferResponse(resp) {
 		if (resp.readyState == XMLHttpRequest.DONE) {
@@ -330,7 +467,7 @@
 					informationHolder.setAccountInfo(objectReceived.account);
 					informationHolder.setRecipientAccount(objectReceived.recipientAccount);
 
-					let urlToAsk = "/getTransfers?type=out&out="+informationHolder.getOutPage();
+					let urlToAsk = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+informationHolder.getOutPage();
 					ajaxCall("GET",urlToAsk,outgoingTransferPageResponse);
 
 					pageManager.orderRefresh(informationHolder);
@@ -368,6 +505,7 @@
 	 ********************************/
 	function closeErrorPopup() {
 		document.querySelector("#popupError h2").className = "hidden";
+		document.getElementById("successTable").className = "moneyTable hidden";
 		document.getElementById("greyBackground").className = "hidden";
 		document.getElementById("popupError").className = "hidden";
 	}
@@ -383,10 +521,14 @@
 		ajaxCall("GET",addressToRequest,accountClickResponse);
 	}
 	function ingoingTransferPageClick(e) {
-		
+		var pageNumber = e.target.textContent;
+		var addressToRequest = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=in&in="+pageNumber;
+		ajaxCall("GET",addressToRequest,ingoingTransferPageResponse);
 	}
 	function outgoingTransferPageClick(e) {
-
+		var pageNumber = e.target.textContent;
+		var addressToRequest = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+pageNumber;
+		ajaxCall("GET",addressToRequest,outgoingTransferPageResponse);
 	}
 	function orderTransferClick(e) {
 		var enclosingForm = e.target.closest("form");

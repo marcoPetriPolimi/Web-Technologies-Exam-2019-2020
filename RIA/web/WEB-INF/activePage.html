@@ -89,8 +89,8 @@
 					<table class="moneyTable">
 						<thead>
 							<tr>
-								<th data-th-utext='${lang.getString("accountStateTableThSender")}'>Ricevente</th>
-								<th data-th-utext='${lang.getString("accountStateTableThSenderAccount")}'>Conto ricevente</th>
+								<th data-th-utext='${lang.getString("accountStateTableThRecipient")}'>Ricevente</th>
+								<th data-th-utext='${lang.getString("accountStateTableThRecipientAccount")}'>Conto ricevente</th>
 								<th data-th-utext='${lang.getString("accountStateTableThAmount")}'>Ammontare</th>
 								<th data-th-utext='${lang.getString("accountStateTableThDate")}'>Data</th>
 								<th data-th-utext='${lang.getString("accountStateTableThReason")}' class="reason">Causale</th>
@@ -132,7 +132,8 @@
 	<div class="hidden" id="greyBackground"></div>
 	<div class="hidden" id="popupError">
 		<h2 class="hidden"></h2>
-		<p id="popupErrorText"></p><br/>
+		<p id="popupErrorText"></p>
+		<table class="moneyTable hidden" id="successTable"></table><br/>
 		<a href="#" id="popupErrorClose">Close popup error message</a>
 	</div>
 </body>
