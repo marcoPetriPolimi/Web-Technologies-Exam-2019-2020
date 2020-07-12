@@ -89,6 +89,7 @@
 		var enclosingForm = e.target.closest("form");
 
 		if (enclosingForm.checkValidity()) {
+			// TODO: check also values forbidden which aren't checked by html
 			ajaxCall("POST","/registration",registrationResponse,enclosingForm);
 		} else {
 			enclosingForm.reportValidity();

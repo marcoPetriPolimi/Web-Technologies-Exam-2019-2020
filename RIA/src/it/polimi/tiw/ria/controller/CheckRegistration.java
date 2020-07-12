@@ -3,9 +3,9 @@ package it.polimi.tiw.ria.controller;
 import com.google.gson.Gson;
 import it.polimi.tiw.ria.beans.User;
 import it.polimi.tiw.ria.dao.AccountDAO;
+import it.polimi.tiw.ria.dao.AddressBookDAO;
 import it.polimi.tiw.ria.dao.UserDAO;
-import it.polimi.tiw.ria.utils.GeneralMessage;
-import it.polimi.tiw.ria.utils.RegistrationMessage;
+import it.polimi.tiw.ria.utils.ErrorMessage;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -32,10 +32,11 @@ public class CheckRegistration extends HttpServletDBConnected {
 		String repeatPassword = req.getParameter("repeatedPwd");
 		UserDAO userDAO = new UserDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());
 		AccountDAO accountDAO = new AccountDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());
+		AddressBookDAO addressBookDAO = new AddressBookDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());
 		User user = null;
 		Gson gson = new Gson();
 		String jsonResponse;
-		RegistrationMessage registrationMessage;
+		ErrorMessage registrationMessage;
 		boolean dataError = false, passwordError = false, userExistError = false, emailError = false, generalError = false;
 
 		if (username != null && email != null && password != null && repeatPassword != null) {
@@ -52,6 +53,7 @@ public class CheckRegistration extends HttpServletDBConnected {
 						userDAO.createUser(email,username,password);
 						user = userDAO.findUser(username);
 						accountDAO.createAccount(user.getCode());
+						addressBookDAO.createAddressBook(user.getCode());
 					} else {
 						userExistError = true;
 					}
@@ -64,22 +66,22 @@ public class CheckRegistration extends HttpServletDBConnected {
 			resp.setCharacterEncoding("UTF-8");
 			if (dataError) {
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				registrationMessage = new RegistrationMessage(lang,lang.getString("errorRegistration"));
+				registrationMessage = new ErrorMessage(lang,lang.getString("errorRegistration"));
 			} else if (passwordError) {
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				registrationMessage = new RegistrationMessage(lang,lang.getString("errorRegistrationPassword"));
+				registrationMessage = new ErrorMessage(lang,lang.getString("errorRegistrationPassword"));
 			} else if (emailError) {
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				registrationMessage = new RegistrationMessage(lang,lang.getString("errorRegistrationEmail"));
+				registrationMessage = new ErrorMessage(lang,lang.getString("errorRegistrationEmail"));
 			} else if (userExistError) {
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				registrationMessage = new RegistrationMessage(lang,lang.getString("errorRegistrationUserExist"));
+				registrationMessage = new ErrorMessage(lang,lang.getString("errorRegistrationUserExist"));
 			} else if (generalError) {
 				resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				registrationMessage = new RegistrationMessage(lang);
+				registrationMessage = new ErrorMessage(lang);
 			} else {
 				resp.setStatus(HttpServletResponse.SC_OK);
-				registrationMessage = new RegistrationMessage(lang);
+				registrationMessage = new ErrorMessage(lang);
 			}
 			resp.getWriter().write(gson.toJson(registrationMessage));
 		} else {

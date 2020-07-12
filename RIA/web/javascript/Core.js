@@ -47,6 +47,7 @@ class InformationHolder {
 		this.addressBook = addressBook;
 		this.ingoingPages = ingoingPages;
 		this.outgoingPages = outgoingPages;
+		this.recipientAccount = null;
 		this.inPage = 1;
 		this.outPage = 1;
 	}
@@ -92,6 +93,9 @@ class InformationHolder {
 	getOutPage() {
 		return this.outPage;
 	}
+	getRecipientAccount() {
+		return this.recipientAccount;
+	}
 
 	/********************
 	 * 					*
@@ -133,6 +137,9 @@ class InformationHolder {
 	}
 	setOutPage(outPage) {
 		this.outPage = outPage;
+	}
+	setRecipientAccount(recipientAccount) {
+		this.recipientAccount = recipientAccount;
 	}
 }
 

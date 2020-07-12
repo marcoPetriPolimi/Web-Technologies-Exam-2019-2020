@@ -52,12 +52,14 @@
 	<filter-mapping>
 		<filter-name>UserFilter</filter-name>
 		<url-pattern>/activePage</url-pattern>
+		<url-pattern>/getUserInfo</url-pattern>
 	</filter-mapping>
 
 
 	<filter-mapping>
 		<filter-name>AccountFilter</filter-name>
 		<url-pattern>/accountState</url-pattern>
+		<url-pattern>/orderTransfer</url-pattern>
 	</filter-mapping>
 
 	<!-- ****************************

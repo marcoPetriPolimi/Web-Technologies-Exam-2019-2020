@@ -153,14 +153,14 @@ body > div.centeredMain > div.centeredMainBlock > h2, body > div.centeredMain > 
 	text-align: left;
 }
 
-body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable, body > div.centeredMain > div.centeredMainBlock table.moneyTable {
+body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable, body > div.centeredMain > div.centeredMainBlock table.moneyTable, div#popupError table.moneyTable {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
 	border-collapse: collapse;
 	border: 1px solid #000000;
 }
-body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable th, body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable th, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td, body > div.centeredMain > div.centeredMainBlock table.moneyTable th, body > div.centeredMain > div.centeredMainBlock table.moneyTable td {
+body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable th, body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable th, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td, body > div.centeredMain > div.centeredMainBlock table.moneyTable th, body > div.centeredMain > div.centeredMainBlock table.moneyTable td, div#popupError table.moneyTable th, div#popupError table.moneyTable td {
 	/* positions, margin */
 	/* dimensions and padding */
 	min-width: 100px;
@@ -179,21 +179,21 @@ body > div.centeredMain > div.centeredMainBlockInline table.moneyTable th.reason
 	word-wrap: break-word;
 }
 
-body > div.centeredMain > div.successPage table.moneyTable th {
+body > div.centeredMain > div.successPage table.moneyTable th, div#popupError table.moneyTable th {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
 	text-align: center;
 }
 
-body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td, body > div.centeredMain > div.centeredMainBlock table.moneyTable td {
+body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td, body > div.centeredMain > div.centeredMainBlock table.moneyTable td, div#popupError table.moneyTable td {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
 	text-align: right;
 }
 
-body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td:first-child, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td:first-child, body > div.centeredMain > div.centeredMainBlock table.moneyTable td:first-child {
+body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td:first-child, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td:first-child, body > div.centeredMain > div.centeredMainBlock table.moneyTable td:first-child, div#popupError table.moneyTable th:first-child {
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
@@ -212,7 +212,7 @@ body > div.centeredMain > div.failPage > ol {
 	margin-top: 0px;
 }
 
-body > div.centeredMain > div.successPage > table {
+body > div.centeredMain > div.successPage > table, div#popupError table.moneyTable {
 	margin-bottom: 15px;
 }
 

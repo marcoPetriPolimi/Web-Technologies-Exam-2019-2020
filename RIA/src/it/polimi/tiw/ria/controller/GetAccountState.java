@@ -2,9 +2,11 @@ package it.polimi.tiw.ria.controller;
 
 import com.google.gson.Gson;
 import it.polimi.tiw.ria.beans.Account;
+import it.polimi.tiw.ria.beans.AddressBook;
 import it.polimi.tiw.ria.beans.Transfer;
 import it.polimi.tiw.ria.beans.User;
 import it.polimi.tiw.ria.dao.AccountDAO;
+import it.polimi.tiw.ria.dao.AddressBookDAO;
 import it.polimi.tiw.ria.utils.AccountMessage;
 import org.thymeleaf.context.WebContext;
 
@@ -24,8 +26,10 @@ public class GetAccountState extends HttpServletDBConnected {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ResourceBundle lang = HttpServletThymeleaf.findLanguage(req);
 		AccountDAO accountDAO = new AccountDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());
+		AddressBookDAO addressBookDAO = new AddressBookDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());
 		List<Transfer> ingoingTransfers, outgoingTransfers;
 		Account account;
+		AddressBook addressBook;
 		AccountMessage accountMessage;
 		Gson gson = new Gson();
 		String jsonResponse;
@@ -42,6 +46,7 @@ public class GetAccountState extends HttpServletDBConnected {
 
 		try {
 			account = accountDAO.findAccount(Integer.parseInt(req.getParameter("accountCode")));
+			addressBook = addressBookDAO.findAddressBook(account.getOwner());
 
 			// calculates the pages for transfers
 			numberOfIngoing = (int) Math.ceil((double)accountDAO.numberOfTransfers(account.getCode(),false)/10.0);
@@ -62,7 +67,7 @@ public class GetAccountState extends HttpServletDBConnected {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
 			resp.setStatus(HttpServletResponse.SC_OK);
-			accountMessage = new AccountMessage(lang,account,ingoingTransfers,outgoingTransfers,numberOfIngoing,numberOfOutgoing);
+			accountMessage = new AccountMessage(lang,account,ingoingTransfers,outgoingTransfers,numberOfIngoing,numberOfOutgoing,addressBook);
 			jsonResponse = gson.toJson(accountMessage);
 			resp.getWriter().write(jsonResponse);
 		} catch (SQLException e) {
