@@ -38,6 +38,12 @@
 		<filter-class>it.polimi.tiw.ria.filter.UserFilter</filter-class>
 	</filter>
 
+
+	<filter>
+		<filter-name>AccountFilter</filter-name>
+		<filter-class>it.polimi.tiw.ria.filter.AccountFilter</filter-class>
+	</filter>
+
 	<!-- ****************************
 	 *								*
 	 *	SERVLET FILTERS MAPPING		*
@@ -46,6 +52,12 @@
 	<filter-mapping>
 		<filter-name>UserFilter</filter-name>
 		<url-pattern>/activePage</url-pattern>
+	</filter-mapping>
+
+
+	<filter-mapping>
+		<filter-name>AccountFilter</filter-name>
+		<url-pattern>/accountState</url-pattern>
 	</filter-mapping>
 
 	<!-- ****************************
