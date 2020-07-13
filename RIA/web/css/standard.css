@@ -229,7 +229,7 @@ body > div.centeredMain > div.errorPage h2 {
  * 			ERRORS			*
  *							*
  ****************************/
-div#popupError {
+div#popupError, div#popupAddressBook {
 	/* positions, margin */
 	position: fixed;
 	left: calc((100% - 400px)/2);
@@ -245,7 +245,7 @@ div#popupError {
 	text-align: left;
 }
 
-div#greyBackground {
+div#greyBackground, div#greyBackgroundAddressBook {
 	/* positions, margin */
 	position: fixed;
 	left: 0px;

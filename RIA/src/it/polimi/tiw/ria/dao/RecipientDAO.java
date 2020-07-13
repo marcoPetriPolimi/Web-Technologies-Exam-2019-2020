@@ -78,8 +78,8 @@ public class RecipientDAO extends GeneralDAO {
 		query = "INSERT INTO Recipient(AddressBook,RecipientId,AccountId) VALUES (?,?,?)";
 		preparedStatement = conn.prepareStatement(query);
 		preparedStatement.setInt(1,addressBookId);
-		preparedStatement.setInt(1,accountId);
-		preparedStatement.setInt(1,recipientId);
+		preparedStatement.setInt(2,recipientId);
+		preparedStatement.setInt(3,accountId);
 		preparedStatement.executeUpdate();
 	}
 }

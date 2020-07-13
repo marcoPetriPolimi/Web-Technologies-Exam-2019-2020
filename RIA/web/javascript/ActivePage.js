@@ -35,6 +35,10 @@
 				elem.addEventListener("click",outgoingTransferPageClick);
 			});
 			document.querySelector("#accountStateForm form input[type=button]").addEventListener("click",orderTransferClick);
+			document.getElementById("popupAddressBookAdd").addEventListener("click",addToAddressBook);
+			document.getElementById("popupAddressBookNotAdd").addEventListener("click",notAddToAddressBook);
+			document.querySelectorAll("#accountStateForm form input")[0].addEventListener("input",checkContactPresence);
+			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",checkContactPresence);
 
 			// auto clicks the homepage loader
 			document.getElementById("showHomepage").dispatchEvent(new Event("click"));
@@ -71,6 +75,8 @@
 			document.getElementById("accountStateInfoBox").style.display = "none";
 			document.getElementById("accountStateTransfers").style.display = "none";
 			document.getElementById("accountStateForm").style.display = "none";
+			document.querySelector("#accountStateForm form").reset();
+			this.unShowCompletionTips();
 		}
 		loadAccount(infoHolder) {
 			document.getElementById("infoTableAccount").textContent = infoHolder.getAccountInfo()["code"];
@@ -297,6 +303,53 @@
 			document.getElementById("greyBackground").className = "display";
 			document.getElementById("popupError").className = "display";
 		}
+		showAddressBookRequest(infoHolder) {
+			// evaluate if the user can be added to user's address book
+			let found = false;
+			for (let i = 0; i < infoHolder.getAddressBook().recipientList.length && !found; i++) {
+				if (infoHolder.getAddressBook().recipientList[i]["userId"] === infoHolder.getRecipientAccount()["owner"]["code"] && infoHolder.getAddressBook().recipientList[i]["accountId"] === infoHolder.getRecipientAccount()["code"]) {
+					found = true;
+				}
+			}
+			// the user isn't inside the address book, now it's time to ask to the user if he wants to add it to it
+			if (!found) {
+				document.getElementById("greyBackgroundAddressBook").className = "display";
+				document.getElementById("popupAddressBook").className = "display";
+				document.getElementById("popupAddressBookText").textContent = infoHolder.getLang().popupAddressBookQuestion+" ("+infoHolder.getRecipientAccount()["owner"]["code"]+", "+infoHolder.getRecipientAccount()["code"]+")";
+				document.getElementById("popupAddressBookAdd").textContent = infoHolder.getLang().popupAddressBookAdd;
+				document.getElementById("popupAddressBookNotAdd").textContent = infoHolder.getLang().popupAddressBookNotAdd;
+			}
+		}
+		showCompletionTips(infoHolder,tipsArray) {
+			var select;
+
+			document.getElementById("autoCompletionTip").className = "";
+			document.getElementById("autoCompletionTip").textContent = infoHolder.getLang()["completionTipText"];
+			select = document.getElementById("completionContacts");
+			select.className = "";
+			select.innerHTML = "";
+
+			// adds the default option
+			let defaultOption = document.createElement("option");
+			defaultOption.value = "none";
+			defaultOption.textContent = infoHolder.getLang()["completionOptionDefault"];
+			select.append(defaultOption);
+
+			// adds every prediction
+			for (let i = 0; i < tipsArray.length; i++) {
+				let option = document.createElement("option");
+				option.value = tipsArray[i].getOne()+"-"+tipsArray[i].getTwo();
+				option.textContent = tipsArray[i].getOne()+", "+tipsArray[i].getTwo();
+				select.append(option);
+			}
+
+			select.addEventListener("input",applyCompletion);
+		}
+		unShowCompletionTips() {
+			document.getElementById("autoCompletionTip").className = "hidden";
+			document.getElementById("completionContacts").className = "hidden";
+			document.getElementById("completionContacts").innerHTML = "";
+		}
 	}
 
 	/********************************
@@ -314,6 +367,44 @@
 			document.location.href = "/index";
 		} else {
 			pageManager.start();
+		}
+	}
+
+	/********************************
+	 * 								*
+	 * 								*
+	 *   AUTO COMPLETION FUNCTION	*
+	 * 								*
+	 * 								*
+	 ********************************/
+	function checkContactPresence(e) {
+		var recipient, recipientAccount, foundPossibilities = [];
+
+		recipient = document.querySelectorAll("#accountStateForm form input")[0].value;
+		recipientAccount = document.querySelectorAll("#accountStateForm form input")[1].value;
+
+		for (let i = 0; i < informationHolder.getAddressBook()["recipientList"].length; i++) {
+			if (informationHolder.getAddressBook()["recipientList"][i]["userId"].toString().startsWith(recipient)
+				&& informationHolder.getAddressBook()["recipientList"][i]["accountId"].toString().startsWith(recipientAccount)
+				&& informationHolder.getAddressBook()["recipientList"][i]["accountId"] !== informationHolder.getAccountInfo()["code"]
+				&& recipient !== "") {
+				foundPossibilities.push(new Couple(informationHolder.getAddressBook()["recipientList"][i]["userId"],informationHolder.getAddressBook()["recipientList"][i]["accountId"]));
+			}
+		}
+
+		if (foundPossibilities.length > 0) {
+			pageManager.showCompletionTips(informationHolder, foundPossibilities);
+		} else {
+			pageManager.unShowCompletionTips();
+		}
+	}
+	function applyCompletion(e) {
+		var target = e.target, splitValues;
+
+		if (target.value !== "none") {
+			splitValues = target.value.split("-");
+			document.querySelectorAll("#accountStateForm form input")[0].value = splitValues[0];
+			document.querySelectorAll("#accountStateForm form input")[1].value = splitValues[1];
 		}
 	}
 
@@ -467,11 +558,15 @@
 					informationHolder.setAccountInfo(objectReceived.account);
 					informationHolder.setRecipientAccount(objectReceived.recipientAccount);
 
+					// evaluate if the user
 					let urlToAsk = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+informationHolder.getOutPage();
 					ajaxCall("GET",urlToAsk,outgoingTransferPageResponse);
 
+					pageManager.unShowCompletionTips();
+					pageManager.showAddressBookRequest(informationHolder);
 					pageManager.orderRefresh(informationHolder);
 					pageManager.showSuccess(informationHolder);
+					document.querySelector("#accountStateForm form").reset();
 					break;
 
 				case 400:
@@ -484,6 +579,33 @@
 					document.getElementById("popupError").className = "display";
 					document.getElementById("popupErrorText").innerHTML = "";
 					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error401;
+					// TODO: add internationalization to every popup error for the close message
+					break;
+
+				case 500:
+					document.getElementById("greyBackground").className = "display";
+					document.getElementById("popupError").className = "display";
+					document.getElementById("popupErrorText").innerHTML = "";
+					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					break;
+			}
+		}
+	}
+	function addToAddressBookResponse(resp) {
+		if (resp.readyState == XMLHttpRequest.DONE) {
+			var objectReceived = JSON.parse(resp.responseText);
+
+			switch (resp.status) {
+				case 200:
+					informationHolder.setLang(objectReceived.keys);
+					informationHolder.setAddressBook(objectReceived.addressBook);
+					break;
+
+				case 400:
+					document.getElementById("greyBackground").className = "display";
+					document.getElementById("popupError").className = "display";
+					document.getElementById("popupErrorText").innerHTML = "";
+					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error400;
 					break;
 
 				case 500:
@@ -503,6 +625,17 @@
 	 * 								*
 	 * 								*
 	 ********************************/
+	function addToAddressBook() {
+		document.getElementById("greyBackgroundAddressBook").className = "hidden";
+		document.getElementById("popupAddressBook").className = "hidden";
+
+		var addressToRequest = "/addToAddressBook?user="+informationHolder.getRecipientAccount()["owner"]["code"]+"&account="+informationHolder.getRecipientAccount()["code"];
+		ajaxCall("GET",addressToRequest,addToAddressBookResponse);
+	}
+	function notAddToAddressBook() {
+		document.getElementById("greyBackgroundAddressBook").className = "hidden";
+		document.getElementById("popupAddressBook").className = "hidden";
+	}
 	function closeErrorPopup() {
 		document.querySelector("#popupError h2").className = "hidden";
 		document.getElementById("successTable").className = "moneyTable hidden";
@@ -536,7 +669,6 @@
 		if (enclosingForm.checkValidity()) {
 			// TODO: check also values forbidden which aren't checked by html
 			ajaxCall("POST","/orderTransfer",orderTransferResponse,enclosingForm);
-			enclosingForm.reset();
 		} else {
 			enclosingForm.reportValidity();
 		}

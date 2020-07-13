@@ -47,6 +47,7 @@ public class GetAccountState extends HttpServletDBConnected {
 		try {
 			account = accountDAO.findAccount(Integer.parseInt(req.getParameter("accountCode")));
 			addressBook = addressBookDAO.findAddressBook(account.getOwner());
+			addressBook = addressBook.setRecipients(addressBookDAO.findRecipients(addressBook));
 
 			// calculates the pages for transfers
 			numberOfIngoing = (int) Math.ceil((double)accountDAO.numberOfTransfers(account.getCode(),false)/10.0);

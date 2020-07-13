@@ -56,6 +56,7 @@
 		<url-pattern>/orderTransfer</url-pattern>
 		<url-pattern>/getUserInfo</url-pattern>
 		<url-pattern>/getTransfers</url-pattern>
+		<url-pattern>/addToAddressBook</url-pattern>
 	</filter-mapping>
 
 

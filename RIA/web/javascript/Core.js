@@ -143,6 +143,26 @@ class InformationHolder {
 	}
 }
 
+class Couple {
+	constructor(one = null,two = null) {
+		this.one = one;
+		this.two = two;
+	}
+
+	getOne() {
+		return this.one;
+	}
+	getTwo() {
+		return this.two;
+	}
+	setOne(one) {
+		this.one = one;
+	}
+	setTwo(two) {
+		this.two = two;
+	}
+}
+
 /**
  * This function makes an asynchronous call to the url given as parameter with a default value for the method type. The user preferred language is sent to the server to allows it to return the correct language pack with the json format.
  * @param method The form method to use.

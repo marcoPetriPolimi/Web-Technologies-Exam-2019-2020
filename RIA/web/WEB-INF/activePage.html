@@ -117,6 +117,10 @@
 			</div>
 			<div class="transfersFormBlock hidden" id="accountStateForm">
 				<h2 data-th-utext='${lang.getString("accountStateFormHeading")}'>Form ordinazione</h2>
+				<div>
+					<p id="autoCompletionTip" class="hidden"></p>
+					<select id="completionContacts" class="hidden"></select>
+				</div>
 				<form method="POST" action="/accountState">
 					<input type="number" min="1" name="recipient" placeholder="Mittente" data-th-placeholder='${lang.getString("accountStateFormRecipient")}' required/>
 					<input type="number" min="1" name="recipientAccount" placeholder="Conto mittente" data-th-placeholder='${lang.getString("accountStateFormRecipientAccount")}' required/>
@@ -127,6 +131,13 @@
 				</form>
 			</div>
 		</div>
+	</div>
+
+	<div class="hidden" id="greyBackgroundAddressBook"></div>
+	<div class="hidden" id="popupAddressBook">
+		<p id="popupAddressBookText"></p>
+		<a href="#" id="popupAddressBookAdd">Add to the address book</a><br/>
+		<a href="#" id="popupAddressBookNotAdd">Don't add to the address book</a>
 	</div>
 
 	<div class="hidden" id="greyBackground"></div>
