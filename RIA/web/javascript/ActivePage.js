@@ -18,6 +18,8 @@
 	 * 								*
 	 ********************************/
 	function PageManager() {
+		var self = this;
+
 		this.start = function() {
 			// instantiates other managers (using hoisting);
 			userInfoManager = new UserDetailsManager(this);
@@ -369,7 +371,14 @@
 			document.getElementById("popupErrorClose").textContent = closeText;
 		}
 		this.translation = function() {
-
+			userInfoManager.translation();
+			accountsManager.translation();
+			transferManager.translation();
+			orderFormManager.translation();
+			accountDetailsManager.translation();
+			addressBookManager.translation();
+			navigatorManager.translation();
+			errorManager.translation();
 		}
 	}
 	function UserDetailsManager(manager) {
@@ -380,7 +389,9 @@
 		 *  	 EVENT RESPONDERS		*
 		 ********************************/
 		this.translation = function() {
-
+			document.querySelector("#homepageInfoBox h2").textContent = informationHolder.getLang()["homepageOverviewHeading"];
+			document.querySelector("#homepageInfoBoxCode td").textContent = informationHolder.getLang()["homepageOverviewCode"];
+			document.querySelector("#homepageInfoBoxName td").textContent = informationHolder.getLang()["homepageOverviewName"];
 		}
 	}
 	function AccountsManager(manager) {
@@ -434,7 +445,26 @@
 			ajaxCall("GET",addressToRequest,self.accountClickResponse);
 		}
 		this.translation = function() {
+			document.querySelector("#homepageAccounts h2").textContent = informationHolder.getLang()["homepageSummary"];
+			document.querySelectorAll("#homepageAccounts table thead tr th")[0].textContent = informationHolder.getLang()["homepageTableHeadingCode"];
+			document.querySelectorAll("#homepageAccounts table thead tr th")[1].textContent = informationHolder.getLang()["homepageTableHeadingBalance"];
+		}
+	}
+	function AccountDetailsManager(manager) {
+		var self = this;
+		var pageManager = manager;
 
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+
+		/********************************
+		 *  	 EVENT RESPONDERS		*
+		 ********************************/
+		this.translation = function() {
+			document.querySelector("#accountStateInfoBox h2").textContent = informationHolder.getLang()["accountStateOverviewHeading"];
+			document.querySelectorAll("#accountStateInfoBox table tr")[0].children.item(0).textContent = informationHolder.getLang()["accountStateOverviewCode"];
+			document.querySelectorAll("#accountStateInfoBox table tr")[1].children.item(0).textContent = informationHolder.getLang()["accountStateOverviewAmount"];
 		}
 	}
 	function TransferManager(manager) {
@@ -509,7 +539,17 @@
 			ajaxCall("GET",addressToRequest,self.outgoingTransferPageResponse);
 		}
 		this.translation = function() {
-
+			document.querySelector("#accountStateTransfers div.ingoingTransfers h2").textContent = informationHolder.getLang()["accountStateIngoingHeading"];
+			document.querySelectorAll("#accountStateTransfers div.ingoingTransfers table thead tr th")[0].textContent = informationHolder.getLang()["accountStateTableThSender"];
+			document.querySelectorAll("#accountStateTransfers div.ingoingTransfers table thead tr th")[1].textContent = informationHolder.getLang()["accountStateTableThSenderAccount"];
+			document.querySelectorAll("#accountStateTransfers div.ingoingTransfers table thead tr th")[2].textContent = informationHolder.getLang()["accountStateTableThAmount"];
+			document.querySelectorAll("#accountStateTransfers div.ingoingTransfers table thead tr th")[3].textContent = informationHolder.getLang()["accountStateTableThDate"];
+			document.querySelectorAll("#accountStateTransfers div.ingoingTransfers table thead tr th")[4].textContent = informationHolder.getLang()["accountStateTableThReason"];
+			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[0].textContent = informationHolder.getLang()["accountStateTableThRecipient"];
+			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[1].textContent = informationHolder.getLang()["accountStateTableThRecipientAccount"];
+			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[2].textContent = informationHolder.getLang()["accountStateTableThAmount"];
+			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[3].textContent = informationHolder.getLang()["accountStateTableThDate"];
+			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[4].textContent = informationHolder.getLang()["accountStateTableThReason"];
 		}
 	}
 	function OrderFormManager(manager) {
@@ -633,22 +673,12 @@
 			}
 		}
 		this.translation = function() {
-
-		}
-	}
-	function AccountDetailsManager(manager) {
-		var self = this;
-		var pageManager = manager;
-
-		/********************************
-		 *   SERVER RESPONSE GETTERS	*
-		 ********************************/
-
-		/********************************
-		 *  	 EVENT RESPONDERS		*
-		 ********************************/
-		this.translation = function() {
-
+			document.querySelector("#accountStateForm h2").textContent = informationHolder.getLang()["accountStateFormHeading"];
+			document.querySelectorAll("#accountStateForm form input")[0].placeholder = informationHolder.getLang()["accountStateFormRecipient"];
+			document.querySelectorAll("#accountStateForm form input")[1].placeholder = informationHolder.getLang()["accountStateFormRecipientAccount"];
+			document.querySelectorAll("#accountStateForm form input")[2].placeholder = informationHolder.getLang()["accountStateFormAmount"];
+			document.querySelector("#accountStateForm form textarea").placeholder = informationHolder.getLang()["accountStateFormReason"];
+			document.querySelectorAll("#accountStateForm form input")[4].value = informationHolder.getLang()["accountStateFormOrder"];
 		}
 	}
 	function ErrorManager(manager) {
@@ -663,6 +693,9 @@
 			document.getElementById("successTable").className = "moneyTable hidden";
 			document.getElementById("greyBackground").className = "hidden";
 			document.getElementById("popupError").className = "hidden";
+		}
+		this.translation = function() {
+			document.getElementById("popupErrorClose").textContent = informationHolder.getLang()["popupCloseErrorPopup"];
 		}
 	}
 	function AddressBookManager(manager) {
@@ -710,7 +743,8 @@
 			document.getElementById("popupAddressBook").className = "hidden";
 		}
 		this.translation = function() {
-
+			document.getElementById("popupAddressBookAdd").textContent = informationHolder.getLang()["popupAddressBookAdd"];
+			document.getElementById("popupAddressBookNotAdd").textContent = informationHolder.getLang()["popupAddressBookNotAdd"];
 		}
 	}
 	function NavigatorManager(manager) {
@@ -732,6 +766,10 @@
 						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
 						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
 						pageManager.loadHomepage(informationHolder);
+						if (firstTranslation === false) {
+							pageManager.translation();
+							firstTranslation = true;
+						}
 						break;
 
 					case 401:
@@ -761,7 +799,8 @@
 			ajaxCall("GET","/logout",self.logoutResponse);
 		}
 		this.translation = function() {
-
+			document.getElementById("showHomepage").textContent = informationHolder.getLang()["showHomepage"];
+			document.getElementById("logoutButton").textContent = informationHolder.getLang()["logout"];
 		}
 	}
 
@@ -774,6 +813,7 @@
 	 ********************************/
 	var informationHolder;
 	var pageManager, userInfoManager, accountsManager, transferManager, orderFormManager, accountDetailsManager, errorManager, addressBookManager, navigatorManager;
+	var firstTranslation = false;
 
 	window.onload = function () {
 		if (sessionStorage.getItem("logged") == null) {
