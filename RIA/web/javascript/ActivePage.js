@@ -17,35 +17,43 @@
 	 * 								*
 	 * 								*
 	 ********************************/
-	class PageManager {
-		constructor() {}
+	function PageManager() {
+		this.start = function() {
+			// instantiates other managers (using hoisting);
+			userInfoManager = new UserDetailsManager(this);
+			accountsManager = new AccountsManager(this);
+			transferManager = new TransferManager(this);
+			orderFormManager = new OrderFormManager(this);
+			accountDetailsManager = new AccountDetailsManager(this);
+			errorManager = new ErrorManager(this);
+			addressBookManager = new AddressBookManager(this);
+			navigatorManager = new NavigatorManager(this);
 
-		start() {
 			// instantiates all listener for page objects
-			document.getElementById("showHomepage").addEventListener("click",requestHomepage);
-			document.getElementById("logoutButton").addEventListener("click",logoutClick);
-			document.getElementById("popupErrorClose").addEventListener("click",closeErrorPopup);
+			document.getElementById("showHomepage").addEventListener("click",navigatorManager.requestHomepage);
+			document.getElementById("logoutButton").addEventListener("click",navigatorManager.logoutClick);
+			document.getElementById("popupErrorClose").addEventListener("click",errorManager.closeErrorPopup);
 			document.querySelectorAll("#homepageAccounts table.moneyTable tbody tr td a").forEach(function(elem) {
-				elem.addEventListener("click",accountClick);
+				elem.addEventListener("click",accountsManager.accountClick);
 			});
 			document.querySelectorAll("#accountStatePageNumbersIngoing a").forEach(function(elem) {
-				elem.addEventListener("click",ingoingTransferPageClick);
+				elem.addEventListener("click",transferManager.ingoingTransferPageClick);
 			});
 			document.querySelectorAll("#accountStatePageNumbersOutgoing a").forEach(function(elem) {
-				elem.addEventListener("click",outgoingTransferPageClick);
+				elem.addEventListener("click",transferManager.outgoingTransferPageClick);
 			});
-			document.querySelector("#accountStateForm form input[type=button]").addEventListener("click",orderTransferClick);
-			document.getElementById("popupAddressBookAdd").addEventListener("click",addToAddressBook);
-			document.getElementById("popupAddressBookNotAdd").addEventListener("click",notAddToAddressBook);
-			document.querySelectorAll("#accountStateForm form input")[0].addEventListener("input",checkContactPresence);
-			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",checkContactPresence);
-			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",accountCodeCheck);
-			document.querySelectorAll("#accountStateForm form input")[2].addEventListener("input",amountCheck);
+			document.querySelector("#accountStateForm form input[type=button]").addEventListener("click",orderFormManager.orderTransferClick);
+			document.getElementById("popupAddressBookAdd").addEventListener("click",addressBookManager.addToAddressBook);
+			document.getElementById("popupAddressBookNotAdd").addEventListener("click",addressBookManager.notAddToAddressBook);
+			document.querySelectorAll("#accountStateForm form input")[0].addEventListener("input",orderFormManager.checkContactPresence);
+			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",orderFormManager.checkContactPresence);
+			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",orderFormManager.accountCodeCheck);
+			document.querySelectorAll("#accountStateForm form input")[2].addEventListener("input",orderFormManager.amountCheck);
 
 			// auto clicks the homepage loader
 			document.getElementById("showHomepage").dispatchEvent(new Event("click"));
 		}
-		loadHomepage(infoHolder) {
+		this.loadHomepage = function(infoHolder) {
 			var userInfo, accountsTable, accountsTableBody;
 
 			document.querySelectorAll("#homepageInfoBoxCode td")[1].textContent = infoHolder.getUserInfo()["code"];
@@ -69,7 +77,7 @@
 			}
 
 			document.querySelectorAll("#homepageAccounts table.moneyTable tbody tr td a").forEach(function(elem) {
-				elem.addEventListener("click",accountClick);
+				elem.addEventListener("click",accountsManager.accountClick);
 			});
 			document.getElementById("homepageInfoBox").style.display = "block";
 			document.getElementById("homepageAccounts").style.display = "block";
@@ -80,7 +88,7 @@
 			document.querySelector("#accountStateForm form").reset();
 			this.unShowCompletionTips();
 		}
-		loadAccount(infoHolder) {
+		this.loadAccount = function(infoHolder) {
 			document.getElementById("infoTableAccount").textContent = infoHolder.getAccountInfo()["code"];
 			document.getElementById("infoTableAmount").textContent = infoHolder.getAccountInfo()["balance"];
 			document.getElementById("accountStateFormHiddenCode").setAttribute("value",infoHolder.getAccountInfo()["code"]);
@@ -94,7 +102,7 @@
 			document.getElementById("accountStateTransfers").style.display = "block";
 			document.getElementById("accountStateForm").style.display = "block";
 		}
-		loadIngoingTransfers(infoHolder) {
+		this.loadIngoingTransfers = function(infoHolder) {
 			var ingoingTransfersTable, ingoingTransfersTableBody, ingoingPages;
 
 			ingoingPages = document.querySelector("#accountStateTransfers div.ingoingTransfers div.pageNumbers");
@@ -160,10 +168,10 @@
 			}
 
 			document.querySelectorAll("#accountStatePageNumbersIngoing a").forEach(function(elem) {
-				elem.addEventListener("click",ingoingTransferPageClick);
+				elem.addEventListener("click",transferManager.ingoingTransferPageClick);
 			});
 		}
-		loadOutgoingTransfers(infoHolder) {
+		this.loadOutgoingTransfers = function(infoHolder) {
 			var outgoingTransfersTable, outgoingTransfersTableBody, outgoingPages;
 
 			outgoingPages = document.querySelector("#accountStateTransfers div.outgoingTransfers div.pageNumbers");
@@ -229,15 +237,15 @@
 			}
 
 			document.querySelectorAll("#accountStatePageNumbersOutgoing a").forEach(function(elem) {
-				elem.addEventListener("click",outgoingTransferPageClick);
+				elem.addEventListener("click",transferManager.outgoingTransferPageClick);
 			});
 		}
-		orderRefresh(infoHolder) {
+		this.orderRefresh = function(infoHolder) {
 			document.getElementById("infoTableAmount").textContent = infoHolder.getAccountInfo()["balance"];
 			this.loadIngoingTransfers(infoHolder);
 			this.loadOutgoingTransfers(infoHolder);
 		}
-		showError(infoHolder, error) {
+		this.showError = function(infoHolder, error) {
 			document.querySelector("#popupError h2").className = "";
 			document.querySelector("#popupError h2").textContent = infoHolder.getLang()["transferResultFail"];
 			let errorText = document.getElementById("popupErrorText");
@@ -254,7 +262,7 @@
 			document.getElementById("popupError").className = "display";
 			document.getElementById("popupErrorClose").textContent = infoHolder.getLang()["popupCloseErrorPopup"];
 		}
-		showSuccess(infoHolder) {
+		this.showSuccess = function(infoHolder) {
 			document.querySelector("#popupError h2").className = "";
 			document.getElementById("successTable").className = "moneyTable";
 			document.querySelector("#popupError h2").textContent = infoHolder.getLang()["transferResultSuccess"];
@@ -307,7 +315,7 @@
 			document.getElementById("popupError").className = "display";
 			document.getElementById("popupErrorClose").textContent = infoHolder.getLang()["popupCloseSuccessPopup"];
 		}
-		showAddressBookRequest(infoHolder) {
+		this.showAddressBookRequest = function(infoHolder) {
 			// evaluate if the user can be added to user's address book
 			let found = false;
 			for (let i = 0; i < infoHolder.getAddressBook().recipientList.length && !found; i++) {
@@ -324,7 +332,7 @@
 				document.getElementById("popupAddressBookNotAdd").textContent = infoHolder.getLang().popupAddressBookNotAdd;
 			}
 		}
-		showCompletionTips(infoHolder,tipsArray) {
+		this.showCompletionTips = function(infoHolder,tipsArray) {
 			var select;
 
 			document.getElementById("autoCompletionTip").className = "";
@@ -347,18 +355,413 @@
 				select.append(option);
 			}
 
-			select.addEventListener("input",applyCompletion);
+			select.addEventListener("input",orderFormManager.applyCompletion);
 		}
-		unShowCompletionTips() {
+		this.unShowCompletionTips = function() {
 			document.getElementById("autoCompletionTip").className = "hidden";
 			document.getElementById("completionContacts").className = "hidden";
 			document.getElementById("completionContacts").innerHTML = "";
 		}
-		showErrorPopup(text,closeText) {
+		this.showErrorPopup = function(text,closeText) {
 			document.getElementById("greyBackground").className = "display";
 			document.getElementById("popupError").className = "display";
 			document.getElementById("popupErrorText").textContent = text;
 			document.getElementById("popupErrorClose").textContent = closeText;
+		}
+		this.translation = function() {
+
+		}
+	}
+	function UserDetailsManager(manager) {
+		var self = this;
+		var pageManager = manager;
+
+		/********************************
+		 *  	 EVENT RESPONDERS		*
+		 ********************************/
+		this.translation = function() {
+
+		}
+	}
+	function AccountsManager(manager) {
+		var self = this;
+		var pageManager = manager;
+
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+		this.accountClickResponse = function(resp) {
+			if (resp.readyState == XMLHttpRequest.DONE) {
+				var objectReceived = JSON.parse(resp.responseText);
+
+				switch (resp.status) {
+					case 200:
+						informationHolder.setLang(objectReceived.keys);
+						informationHolder.setAccountInfo(objectReceived.accountInfo);
+						informationHolder.setIngoingTransfers(objectReceived.ingoingTransfers);
+						informationHolder.setOutgoingTransfers(objectReceived.outgoingTransfers);
+						informationHolder.setIngoingPages(objectReceived.ingoingPages);
+						informationHolder.setOutgoingPages(objectReceived.outgoingPages);
+						informationHolder.setAddressBook(objectReceived.addressBook);
+						informationHolder.setInPage(1);
+						informationHolder.setOutPage(1);
+						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
+						pageManager.loadAccount(informationHolder);
+						break;
+
+					case 400:
+						pageManager.showErrorPopup(informationHolder.getLang().error400,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+
+					case 401:
+						pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+
+					case 500:
+						pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+				}
+			}
+		}
+
+		/********************************
+		 *  	 EVENT RESPONDERS		*
+		 ********************************/
+		this.accountClick = function(e) {
+			var accountNumber = e.target;
+			var addressToRequest = "/accountState?accountCode="+accountNumber.textContent+"&out=1&in=1";
+			ajaxCall("GET",addressToRequest,self.accountClickResponse);
+		}
+		this.translation = function() {
+
+		}
+	}
+	function TransferManager(manager) {
+		var self = this;
+		var pageManager = manager;
+
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+		this.ingoingTransferPageResponse = function(resp) {
+			if (resp.readyState == XMLHttpRequest.DONE) {
+				var objectReceived = JSON.parse(resp.responseText);
+
+				switch (resp.status) {
+					case 200:
+						informationHolder.setLang(objectReceived.keys);
+						informationHolder.setIngoingTransfers(objectReceived.transfers);
+						informationHolder.setIngoingPages(objectReceived.transferPages);
+						informationHolder.setInPage(objectReceived.transferPage);
+						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
+						pageManager.loadIngoingTransfers(informationHolder);
+						break;
+
+					case 401:
+						pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+
+					case 500:
+						pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+				}
+			}
+		}
+		this.outgoingTransferPageResponse = function(resp) {
+			if (resp.readyState == XMLHttpRequest.DONE) {
+				var objectReceived = JSON.parse(resp.responseText);
+
+				switch (resp.status) {
+					case 200:
+						informationHolder.setLang(objectReceived.keys);
+						informationHolder.setOutgoingTransfers(objectReceived.transfers);
+						informationHolder.setOutgoingPages(objectReceived.transferPages);
+						informationHolder.setOutPage(objectReceived.transferPage);
+						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
+						pageManager.loadOutgoingTransfers(informationHolder);
+						break;
+
+					case 401:
+						pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+
+					case 500:
+						pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+				}
+			}
+		}
+
+		/********************************
+		 *  	 EVENT RESPONDERS		*
+		 ********************************/
+		this.ingoingTransferPageClick = function(e) {
+			var pageNumber = e.target.textContent;
+			var addressToRequest = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=in&in="+pageNumber;
+			ajaxCall("GET",addressToRequest,self.ingoingTransferPageResponse);
+		}
+		this.outgoingTransferPageClick = function(e) {
+			var pageNumber = e.target.textContent;
+			var addressToRequest = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+pageNumber;
+			ajaxCall("GET",addressToRequest,self.outgoingTransferPageResponse);
+		}
+		this.translation = function() {
+
+		}
+	}
+	function OrderFormManager(manager) {
+		var self = this;
+		var pageManager = manager;
+
+		/********************************
+		 *   AUTO COMPLETION FUNCTION	*
+		 ********************************/
+		this.checkContactPresence = function(e) {
+			var recipient, recipientAccount, foundPossibilities = [];
+
+			recipient = document.querySelectorAll("#accountStateForm form input")[0].value;
+			recipientAccount = document.querySelectorAll("#accountStateForm form input")[1].value;
+
+			for (let i = 0; i < informationHolder.getAddressBook()["recipientList"].length; i++) {
+				if (informationHolder.getAddressBook()["recipientList"][i]["userId"].toString().startsWith(recipient)
+					&& informationHolder.getAddressBook()["recipientList"][i]["accountId"].toString().startsWith(recipientAccount)
+					&& informationHolder.getAddressBook()["recipientList"][i]["accountId"] !== informationHolder.getAccountInfo()["code"]
+					&& recipient !== "") {
+					foundPossibilities.push(new Couple(informationHolder.getAddressBook()["recipientList"][i]["userId"],informationHolder.getAddressBook()["recipientList"][i]["accountId"]));
+				}
+			}
+
+			if (foundPossibilities.length > 0) {
+				pageManager.showCompletionTips(informationHolder, foundPossibilities);
+			} else {
+				pageManager.unShowCompletionTips();
+			}
+		}
+		this.applyCompletion = function(e) {
+			var target = e.target, splitValues;
+
+			if (target.value !== "none") {
+				splitValues = target.value.split("-");
+				document.querySelectorAll("#accountStateForm form input")[0].value = splitValues[0];
+				document.querySelectorAll("#accountStateForm form input")[1].value = splitValues[1];
+			}
+		}
+
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+		this.orderTransferResponse = function(resp) {
+			if (resp.readyState == XMLHttpRequest.DONE) {
+				var objectReceived = JSON.parse(resp.responseText);
+
+				switch (resp.status) {
+					case 200:
+						informationHolder.setLang(objectReceived.keys);
+						informationHolder.setAccountInfo(objectReceived.account);
+						informationHolder.setRecipientAccount(objectReceived.recipientAccount);
+						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
+
+						// evaluate if the user
+						let urlToAsk = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+informationHolder.getOutPage();
+						ajaxCall("GET",urlToAsk,transferManager.outgoingTransferPageResponse);
+
+						pageManager.unShowCompletionTips();
+						pageManager.showAddressBookRequest(informationHolder);
+						pageManager.orderRefresh(informationHolder);
+						pageManager.showSuccess(informationHolder);
+						document.querySelector("#accountStateForm form").reset();
+						break;
+
+					case 400:
+						informationHolder.setLang(objectReceived.keys);
+						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
+						pageManager.showError(informationHolder,objectReceived.error);
+						break;
+
+					case 401:
+						pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+
+					case 500:
+						pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+				}
+			}
+		}
+
+		/********************************
+		 *  	 EVENT RESPONDERS		*
+		 ********************************/
+		this.orderTransferClick = function(e) {
+			var enclosingForm = e.target.closest("form");
+
+			if (enclosingForm.checkValidity()) {
+				if (self.amountCheck() && self.accountCodeCheck()) {
+					ajaxCall("POST", "/orderTransfer", self.orderTransferResponse, enclosingForm);
+				}
+			} else {
+				enclosingForm.reportValidity();
+			}
+		}
+		this.accountCodeCheck = function(e) {
+			var accountCode;
+			accountCode = document.querySelectorAll("#accountStateForm form input")[1];
+
+			if (parseInt(accountCode.value) === informationHolder.getAccountInfo()["code"]) {
+				accountCode.setCustomValidity(informationHolder.getLang()["errorOrderAutoTransfer"]);
+				return false;
+			} else {
+				accountCode.setCustomValidity("");
+				return true;
+			}
+		}
+		this.amountCheck = function(e) {
+			var amount;
+			amount = document.querySelectorAll("#accountStateForm form input")[2];
+
+			if (parseInt(amount.value) > informationHolder.getAccountInfo()["balance"]) {
+				amount.setCustomValidity(informationHolder.getLang()["errorOrderAmount"]);
+				return false;
+			} else {
+				amount.setCustomValidity("");
+				return true;
+			}
+		}
+		this.translation = function() {
+
+		}
+	}
+	function AccountDetailsManager(manager) {
+		var self = this;
+		var pageManager = manager;
+
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+
+		/********************************
+		 *  	 EVENT RESPONDERS		*
+		 ********************************/
+		this.translation = function() {
+
+		}
+	}
+	function ErrorManager(manager) {
+		var self = this;
+		var pageManager = manager;
+
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+		this.closeErrorPopup = function() {
+			document.querySelector("#popupError h2").className = "hidden";
+			document.getElementById("successTable").className = "moneyTable hidden";
+			document.getElementById("greyBackground").className = "hidden";
+			document.getElementById("popupError").className = "hidden";
+		}
+	}
+	function AddressBookManager(manager) {
+		var self = this;
+		var pageManager = manager;
+
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+		this.addToAddressBookResponse = function(resp) {
+			if (resp.readyState == XMLHttpRequest.DONE) {
+				var objectReceived = JSON.parse(resp.responseText);
+
+				switch (resp.status) {
+					case 200:
+						informationHolder.setLang(objectReceived.keys);
+						informationHolder.setAddressBook(objectReceived.addressBook);
+						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
+						break;
+
+					case 400:
+						pageManager.showErrorPopup(informationHolder.getLang().error400,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+
+					case 500:
+						pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+				}
+			}
+		}
+
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+		this.addToAddressBook = function() {
+			document.getElementById("greyBackgroundAddressBook").className = "hidden";
+			document.getElementById("popupAddressBook").className = "hidden";
+
+			var addressToRequest = "/addToAddressBook?user="+informationHolder.getRecipientAccount()["owner"]["code"]+"&account="+informationHolder.getRecipientAccount()["code"];
+			ajaxCall("GET",addressToRequest,self.addToAddressBookResponse);
+		}
+		this.notAddToAddressBook = function() {
+			document.getElementById("greyBackgroundAddressBook").className = "hidden";
+			document.getElementById("popupAddressBook").className = "hidden";
+		}
+		this.translation = function() {
+
+		}
+	}
+	function NavigatorManager(manager) {
+		var self = this;
+		var pageManager = manager;
+
+		/********************************
+		 *   SERVER RESPONSE GETTERS	*
+		 ********************************/
+		this.requestHomepageResponse = function(resp) {
+			if (resp.readyState == XMLHttpRequest.DONE) {
+				var objectReceived = JSON.parse(resp.responseText);
+
+				switch (resp.status) {
+					case 200:
+						informationHolder = new InformationHolder(objectReceived.keys);
+						informationHolder.setUserInfo(objectReceived.userInfo);
+						informationHolder.setUserAccounts(objectReceived.accounts);
+						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
+						pageManager.loadHomepage(informationHolder);
+						break;
+
+					case 401:
+						pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+
+					case 500:
+						pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
+						break;
+				}
+			}
+		}
+		this.logoutResponse = function(resp) {
+			if (resp.readyState == XMLHttpRequest.DONE) {
+				sessionStorage.removeItem("logged");
+				document.location.href = "/index";
+			}
+		}
+
+		/********************************
+		 *  	 EVENT RESPONDERS		*
+		 ********************************/
+		this.requestHomepage = function() {
+			ajaxCall("GET","/getUserInfo",self.requestHomepageResponse);
+		}
+		this.logoutClick = function() {
+			ajaxCall("GET","/logout",self.logoutResponse);
+		}
+		this.translation = function() {
+
 		}
 	}
 
@@ -370,316 +773,14 @@
 	 * 								*
 	 ********************************/
 	var informationHolder;
-	var pageManager = new PageManager();
+	var pageManager, userInfoManager, accountsManager, transferManager, orderFormManager, accountDetailsManager, errorManager, addressBookManager, navigatorManager;
 
 	window.onload = function () {
 		if (sessionStorage.getItem("logged") == null) {
 			document.location.href = "/index";
 		} else {
+			pageManager = new PageManager();
 			pageManager.start();
-		}
-	}
-
-	/********************************
-	 * 								*
-	 * 								*
-	 *   AUTO COMPLETION FUNCTION	*
-	 * 								*
-	 * 								*
-	 ********************************/
-	function checkContactPresence(e) {
-		var recipient, recipientAccount, foundPossibilities = [];
-
-		recipient = document.querySelectorAll("#accountStateForm form input")[0].value;
-		recipientAccount = document.querySelectorAll("#accountStateForm form input")[1].value;
-
-		for (let i = 0; i < informationHolder.getAddressBook()["recipientList"].length; i++) {
-			if (informationHolder.getAddressBook()["recipientList"][i]["userId"].toString().startsWith(recipient)
-				&& informationHolder.getAddressBook()["recipientList"][i]["accountId"].toString().startsWith(recipientAccount)
-				&& informationHolder.getAddressBook()["recipientList"][i]["accountId"] !== informationHolder.getAccountInfo()["code"]
-				&& recipient !== "") {
-				foundPossibilities.push(new Couple(informationHolder.getAddressBook()["recipientList"][i]["userId"],informationHolder.getAddressBook()["recipientList"][i]["accountId"]));
-			}
-		}
-
-		if (foundPossibilities.length > 0) {
-			pageManager.showCompletionTips(informationHolder, foundPossibilities);
-		} else {
-			pageManager.unShowCompletionTips();
-		}
-	}
-	function applyCompletion(e) {
-		var target = e.target, splitValues;
-
-		if (target.value !== "none") {
-			splitValues = target.value.split("-");
-			document.querySelectorAll("#accountStateForm form input")[0].value = splitValues[0];
-			document.querySelectorAll("#accountStateForm form input")[1].value = splitValues[1];
-		}
-	}
-
-	/********************************
-	 * 								*
-	 * 								*
-	 *   SERVER RESPONSE GETTERS	*
-	 * 								*
-	 * 								*
-	 ********************************/
-	function requestHomepageResponse(resp) {
-		if (resp.readyState == XMLHttpRequest.DONE) {
-			var objectReceived = JSON.parse(resp.responseText);
-
-			switch (resp.status) {
-				case 200:
-					informationHolder = new InformationHolder(objectReceived.keys);
-					informationHolder.setUserInfo(objectReceived.userInfo);
-					informationHolder.setUserAccounts(objectReceived.accounts);
-					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
-					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
-					pageManager.loadHomepage(informationHolder);
-					break;
-
-				case 401:
-					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-
-				case 500:
-					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-			}
-		}
-	}
-	function logoutResponse(resp) {
-		if (resp.readyState == XMLHttpRequest.DONE) {
-			sessionStorage.removeItem("logged");
-			document.location.href = "/index";
-		}
-	}
-	function accountClickResponse(resp) {
-		if (resp.readyState == XMLHttpRequest.DONE) {
-			var objectReceived = JSON.parse(resp.responseText);
-
-			switch (resp.status) {
-				case 200:
-					informationHolder.setLang(objectReceived.keys);
-					informationHolder.setAccountInfo(objectReceived.accountInfo);
-					informationHolder.setIngoingTransfers(objectReceived.ingoingTransfers);
-					informationHolder.setOutgoingTransfers(objectReceived.outgoingTransfers);
-					informationHolder.setIngoingPages(objectReceived.ingoingPages);
-					informationHolder.setOutgoingPages(objectReceived.outgoingPages);
-					informationHolder.setAddressBook(objectReceived.addressBook);
-					informationHolder.setInPage(1);
-					informationHolder.setOutPage(1);
-					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
-					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
-					pageManager.loadAccount(informationHolder);
-					break;
-
-				case 400:
-					pageManager.showErrorPopup(informationHolder.getLang().error400,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-
-				case 401:
-					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-
-				case 500:
-					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-			}
-		}
-	}
-	function ingoingTransferPageResponse(resp) {
-		if (resp.readyState == XMLHttpRequest.DONE) {
-			var objectReceived = JSON.parse(resp.responseText);
-
-			switch (resp.status) {
-				case 200:
-					informationHolder.setLang(objectReceived.keys);
-					informationHolder.setIngoingTransfers(objectReceived.transfers);
-					informationHolder.setIngoingPages(objectReceived.transferPages);
-					informationHolder.setInPage(objectReceived.transferPage);
-					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
-					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
-					pageManager.loadIngoingTransfers(informationHolder);
-					break;
-
-				case 401:
-					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-
-				case 500:
-					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-			}
-		}
-	}
-	function outgoingTransferPageResponse(resp) {
-		if (resp.readyState == XMLHttpRequest.DONE) {
-			var objectReceived = JSON.parse(resp.responseText);
-
-			switch (resp.status) {
-				case 200:
-					informationHolder.setLang(objectReceived.keys);
-					informationHolder.setOutgoingTransfers(objectReceived.transfers);
-					informationHolder.setOutgoingPages(objectReceived.transferPages);
-					informationHolder.setOutPage(objectReceived.transferPage);
-					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
-					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
-					pageManager.loadOutgoingTransfers(informationHolder);
-					break;
-
-				case 401:
-					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-
-				case 500:
-					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-			}
-		}
-	}
-	function orderTransferResponse(resp) {
-		if (resp.readyState == XMLHttpRequest.DONE) {
-			var objectReceived = JSON.parse(resp.responseText);
-
-			switch (resp.status) {
-				case 200:
-					informationHolder.setLang(objectReceived.keys);
-					informationHolder.setAccountInfo(objectReceived.account);
-					informationHolder.setRecipientAccount(objectReceived.recipientAccount);
-					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
-					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
-
-					// evaluate if the user
-					let urlToAsk = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+informationHolder.getOutPage();
-					ajaxCall("GET",urlToAsk,outgoingTransferPageResponse);
-
-					pageManager.unShowCompletionTips();
-					pageManager.showAddressBookRequest(informationHolder);
-					pageManager.orderRefresh(informationHolder);
-					pageManager.showSuccess(informationHolder);
-					document.querySelector("#accountStateForm form").reset();
-					break;
-
-				case 400:
-					informationHolder.setLang(objectReceived.keys);
-					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
-					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
-					pageManager.showError(informationHolder,objectReceived.error);
-					break;
-
-				case 401:
-					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-
-				case 500:
-					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-			}
-		}
-	}
-	function addToAddressBookResponse(resp) {
-		if (resp.readyState == XMLHttpRequest.DONE) {
-			var objectReceived = JSON.parse(resp.responseText);
-
-			switch (resp.status) {
-				case 200:
-					informationHolder.setLang(objectReceived.keys);
-					informationHolder.setAddressBook(objectReceived.addressBook);
-					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
-					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
-					break;
-
-				case 400:
-					pageManager.showErrorPopup(informationHolder.getLang().error400,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-
-				case 500:
-					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
-					break;
-			}
-		}
-	}
-
-	/********************************
-	 * 								*
-	 * 								*
-	 *  	 EVENT RESPONDERS		*
-	 * 								*
-	 * 								*
-	 ********************************/
-	function addToAddressBook() {
-		document.getElementById("greyBackgroundAddressBook").className = "hidden";
-		document.getElementById("popupAddressBook").className = "hidden";
-
-		var addressToRequest = "/addToAddressBook?user="+informationHolder.getRecipientAccount()["owner"]["code"]+"&account="+informationHolder.getRecipientAccount()["code"];
-		ajaxCall("GET",addressToRequest,addToAddressBookResponse);
-	}
-	function notAddToAddressBook() {
-		document.getElementById("greyBackgroundAddressBook").className = "hidden";
-		document.getElementById("popupAddressBook").className = "hidden";
-	}
-	function closeErrorPopup() {
-		document.querySelector("#popupError h2").className = "hidden";
-		document.getElementById("successTable").className = "moneyTable hidden";
-		document.getElementById("greyBackground").className = "hidden";
-		document.getElementById("popupError").className = "hidden";
-	}
-	function requestHomepage() {
-		ajaxCall("GET","/getUserInfo",requestHomepageResponse);
-	}
-	function logoutClick() {
-		ajaxCall("GET","/logout",logoutResponse);
-	}
-	function accountClick(e) {
-		var accountNumber = e.target;
-		var addressToRequest = "/accountState?accountCode="+accountNumber.textContent+"&out=1&in=1";
-		ajaxCall("GET",addressToRequest,accountClickResponse);
-	}
-	function ingoingTransferPageClick(e) {
-		var pageNumber = e.target.textContent;
-		var addressToRequest = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=in&in="+pageNumber;
-		ajaxCall("GET",addressToRequest,ingoingTransferPageResponse);
-	}
-	function outgoingTransferPageClick(e) {
-		var pageNumber = e.target.textContent;
-		var addressToRequest = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+pageNumber;
-		ajaxCall("GET",addressToRequest,outgoingTransferPageResponse);
-	}
-	function orderTransferClick(e) {
-		var enclosingForm = e.target.closest("form");
-
-		if (enclosingForm.checkValidity()) {
-			if (amountCheck() && accountCodeCheck()) {
-				ajaxCall("POST", "/orderTransfer", orderTransferResponse, enclosingForm);
-			}
-		} else {
-			enclosingForm.reportValidity();
-		}
-	}
-	function accountCodeCheck(e) {
-		var accountCode;
-		accountCode = document.querySelectorAll("#accountStateForm form input")[1];
-
-		if (parseInt(accountCode.value) === informationHolder.getAccountInfo()["code"]) {
-			accountCode.setCustomValidity(informationHolder.getLang()["errorOrderAutoTransfer"]);
-			return false;
-		} else {
-			accountCode.setCustomValidity("");
-			return true;
-		}
-	}
-	function amountCheck(e) {
-		var amount;
-		amount = document.querySelectorAll("#accountStateForm form input")[2];
-
-		if (parseInt(amount.value) > informationHolder.getAccountInfo()["balance"]) {
-			amount.setCustomValidity(informationHolder.getLang()["errorOrderAmount"]);
-			return false;
-		} else {
-			amount.setCustomValidity("");
-			return true;
 		}
 	}
 })();
