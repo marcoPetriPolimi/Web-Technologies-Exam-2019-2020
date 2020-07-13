@@ -23,6 +23,9 @@ public class Const {
 	public static final String unavailableException = "Can't find database driver";
 	public static final String sqlException = "Can't load database";
 
+	// time before session expire
+	public static final int sessionExpireTime = 60*15;
+
 	// error due to client's file modification
 	public static final String modificationError = "Error";
 }

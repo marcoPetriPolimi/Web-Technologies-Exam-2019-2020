@@ -9,30 +9,6 @@
  ********************************/
 
 /**
- * This is the base class used by the website script to store user preferences such as language, which default is eng-US, following the international standard ISO 639 alpha 3 for languages and ISO 3166 alpha 2.
- */
-class UserPreferences {
-	constructor(language = "eng",country = "US") {
-		this.language = language;
-		this.country = country;
-	}
-
-	getLanguage() {
-		return this.language;
-	}
-	getCountry() {
-		return this.country;
-	}
-
-	setLanguage(language) {
-		this.language = language;
-	}
-	setCountry(country) {
-		this.country = country;
-	}
-}
-
-/**
  * This is the class used to store information about the page the user is seeing and its relative views.
  */
 class InformationHolder {
@@ -169,9 +145,8 @@ class Couple {
  * @param url The url where the request must be sent.
  * @param responseFunction The callback function to call when the server replies to the call.
  * @param formValues Eventually form values to send with the request.
- * @param userPreferences A UserPreferences object or its subclass with UserPreferences information.
  */
-function ajaxCall(method = "GET", url, responseFunction, formValues, userPreferences = new UserPreferences()) {
+function ajaxCall(method = "GET", url, responseFunction, formValues) {
 	// needed variable to open a request, visible because of the closure
 	var XMLObject = new XMLHttpRequest();
 
@@ -181,7 +156,6 @@ function ajaxCall(method = "GET", url, responseFunction, formValues, userPrefere
 		};
 
 		XMLObject.open(method,url);
-		XMLObject.setRequestHeader("Accept-Language",userPreferences.getLanguage()+"-"+userPreferences.getCountry());
 		if (responseFunction !== null) {
 			XMLObject.send(new FormData(formValues))
 		} else {

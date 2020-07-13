@@ -3,6 +3,7 @@ package it.polimi.tiw.ria.controller;
 import com.google.gson.Gson;
 import it.polimi.tiw.ria.beans.User;
 import it.polimi.tiw.ria.dao.UserDAO;
+import it.polimi.tiw.ria.utils.Const;
 import it.polimi.tiw.ria.utils.GeneralMessage;
 
 import javax.servlet.ServletContext;
@@ -40,6 +41,7 @@ public class CheckLogin extends HttpServletDBConnected {
 				if (user != null) {
 					if (user.getPassword().equals(password)) {
 						session = req.getSession(true);
+						session.setMaxInactiveInterval(Const.sessionExpireTime);
 						session.setAttribute("user",user);
 					} else {
 						dataError = true;

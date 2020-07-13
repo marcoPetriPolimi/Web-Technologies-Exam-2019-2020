@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -53,18 +54,48 @@ public class HttpServletThymeleaf extends HttpServlet {
 
 	public static ResourceBundle findLanguage(HttpServletRequest req) {
 		ResourceBundle lang;
+		HttpSession session = req.getSession(true);
+		String language, country;
 
-		if (Const.acceptedLangTags.contains(req.getLocale().getLanguage())) {
-			String language = req.getLocale().getLanguage();
-			String country = Const.isoTagToCountry.get(language);
+		if (session.getAttribute("lang") != null) {
+			language = (String) session.getAttribute("lang");
+			country = (String) session.getAttribute("country");
+			lang = getLanguage(language,country);
+		} else {
+			if (Const.acceptedLangTags.contains(req.getLocale().getLanguage())) {
+				language = req.getLocale().getLanguage();
+				country = Const.isoTagToCountry.get(language);
+				lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(language,country));
+			} else if (Const.acceptedOldIsoLangTags.contains(req.getLocale().getLanguage())) {
+				language = Const.oldIsoLangTagsToNew.get(req.getLocale().getLanguage());
+				country = Const.isoTagToCountry.get(language);
+				lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(language,country));
+			} else {
+				lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(Const.defaultLanguage,Const.defaultCountry));
+			}
+			session.setMaxInactiveInterval(Const.sessionExpireTime);
+			session.setAttribute("lang",lang.getLocale().getLanguage());
+			session.setAttribute("country",lang.getLocale().getCountry());
+		}
+
+
+		return lang;
+	}
+
+	public static ResourceBundle getLanguage(String language, String country) {
+		ResourceBundle lang;
+
+		if (Const.acceptedLangTags.contains(language)) {
+			country = Const.isoTagToCountry.get(language);
 			lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(language,country));
-		} else if (Const.acceptedOldIsoLangTags.contains(req.getLocale().getLanguage())) {
-			String language = Const.oldIsoLangTagsToNew.get(req.getLocale().getLanguage());
-			String country = Const.isoTagToCountry.get(language);
+		} else if (Const.acceptedOldIsoLangTags.contains(language)) {
+			language = Const.oldIsoLangTagsToNew.get(language);
+			country = Const.isoTagToCountry.get(language);
 			lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(language,country));
 		} else {
 			lang = ResourceBundle.getBundle(Const.propertiesBaseName,new Locale(Const.defaultLanguage,Const.defaultCountry));
 		}
+
 		return lang;
 	}
 }

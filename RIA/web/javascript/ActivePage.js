@@ -39,6 +39,8 @@
 			document.getElementById("popupAddressBookNotAdd").addEventListener("click",notAddToAddressBook);
 			document.querySelectorAll("#accountStateForm form input")[0].addEventListener("input",checkContactPresence);
 			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",checkContactPresence);
+			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",accountCodeCheck);
+			document.querySelectorAll("#accountStateForm form input")[2].addEventListener("input",amountCheck);
 
 			// auto clicks the homepage loader
 			document.getElementById("showHomepage").dispatchEvent(new Event("click"));
@@ -250,6 +252,7 @@
 
 			document.getElementById("greyBackground").className = "display";
 			document.getElementById("popupError").className = "display";
+			document.getElementById("popupErrorClose").textContent = infoHolder.getLang()["popupCloseErrorPopup"];
 		}
 		showSuccess(infoHolder) {
 			document.querySelector("#popupError h2").className = "";
@@ -302,6 +305,7 @@
 
 			document.getElementById("greyBackground").className = "display";
 			document.getElementById("popupError").className = "display";
+			document.getElementById("popupErrorClose").textContent = infoHolder.getLang()["popupCloseSuccessPopup"];
 		}
 		showAddressBookRequest(infoHolder) {
 			// evaluate if the user can be added to user's address book
@@ -349,6 +353,12 @@
 			document.getElementById("autoCompletionTip").className = "hidden";
 			document.getElementById("completionContacts").className = "hidden";
 			document.getElementById("completionContacts").innerHTML = "";
+		}
+		showErrorPopup(text,closeText) {
+			document.getElementById("greyBackground").className = "display";
+			document.getElementById("popupError").className = "display";
+			document.getElementById("popupErrorText").textContent = text;
+			document.getElementById("popupErrorClose").textContent = closeText;
 		}
 	}
 
@@ -424,21 +434,17 @@
 					informationHolder = new InformationHolder(objectReceived.keys);
 					informationHolder.setUserInfo(objectReceived.userInfo);
 					informationHolder.setUserAccounts(objectReceived.accounts);
+					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
 					pageManager.loadHomepage(informationHolder);
 					break;
 
 				case 401:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error401;
+					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 
 				case 500:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 			}
 		}
@@ -464,28 +470,21 @@
 					informationHolder.setAddressBook(objectReceived.addressBook);
 					informationHolder.setInPage(1);
 					informationHolder.setOutPage(1);
+					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
 					pageManager.loadAccount(informationHolder);
 					break;
 
 				case 400:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error400;
+					pageManager.showErrorPopup(informationHolder.getLang().error400,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 
 				case 401:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error401;
+					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 
 				case 500:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 			}
 		}
@@ -500,21 +499,17 @@
 					informationHolder.setIngoingTransfers(objectReceived.transfers);
 					informationHolder.setIngoingPages(objectReceived.transferPages);
 					informationHolder.setInPage(objectReceived.transferPage);
+					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
 					pageManager.loadIngoingTransfers(informationHolder);
 					break;
 
 				case 401:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error401;
+					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 
 				case 500:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 			}
 		}
@@ -529,21 +524,17 @@
 					informationHolder.setOutgoingTransfers(objectReceived.transfers);
 					informationHolder.setOutgoingPages(objectReceived.transferPages);
 					informationHolder.setOutPage(objectReceived.transferPage);
+					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
 					pageManager.loadOutgoingTransfers(informationHolder);
 					break;
 
 				case 401:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error401;
+					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 
 				case 500:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 			}
 		}
@@ -557,6 +548,8 @@
 					informationHolder.setLang(objectReceived.keys);
 					informationHolder.setAccountInfo(objectReceived.account);
 					informationHolder.setRecipientAccount(objectReceived.recipientAccount);
+					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
 
 					// evaluate if the user
 					let urlToAsk = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+informationHolder.getOutPage();
@@ -571,22 +564,17 @@
 
 				case 400:
 					informationHolder.setLang(objectReceived.keys);
+					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
 					pageManager.showError(informationHolder,objectReceived.error);
 					break;
 
 				case 401:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error401;
-					// TODO: add internationalization to every popup error for the close message
+					pageManager.showErrorPopup(informationHolder.getLang().error401,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 
 				case 500:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 			}
 		}
@@ -599,20 +587,16 @@
 				case 200:
 					informationHolder.setLang(objectReceived.keys);
 					informationHolder.setAddressBook(objectReceived.addressBook);
+					sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+					sessionStorage.setItem("country",informationHolder.getLang()["country"]);
 					break;
 
 				case 400:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error400;
+					pageManager.showErrorPopup(informationHolder.getLang().error400,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 
 				case 500:
-					document.getElementById("greyBackground").className = "display";
-					document.getElementById("popupError").className = "display";
-					document.getElementById("popupErrorText").innerHTML = "";
-					document.getElementById("popupErrorText").textContent = informationHolder.getLang().error500;
+					pageManager.showErrorPopup(informationHolder.getLang().error500,informationHolder.getLang().popupCloseErrorPopup);
 					break;
 			}
 		}
@@ -667,10 +651,35 @@
 		var enclosingForm = e.target.closest("form");
 
 		if (enclosingForm.checkValidity()) {
-			// TODO: check also values forbidden which aren't checked by html
-			ajaxCall("POST","/orderTransfer",orderTransferResponse,enclosingForm);
+			if (amountCheck() && accountCodeCheck()) {
+				ajaxCall("POST", "/orderTransfer", orderTransferResponse, enclosingForm);
+			}
 		} else {
 			enclosingForm.reportValidity();
+		}
+	}
+	function accountCodeCheck(e) {
+		var accountCode;
+		accountCode = document.querySelectorAll("#accountStateForm form input")[1];
+
+		if (parseInt(accountCode.value) === informationHolder.getAccountInfo()["code"]) {
+			accountCode.setCustomValidity(informationHolder.getLang()["errorOrderAutoTransfer"]);
+			return false;
+		} else {
+			accountCode.setCustomValidity("");
+			return true;
+		}
+	}
+	function amountCheck(e) {
+		var amount;
+		amount = document.querySelectorAll("#accountStateForm form input")[2];
+
+		if (parseInt(amount.value) > informationHolder.getAccountInfo()["balance"]) {
+			amount.setCustomValidity(informationHolder.getLang()["errorOrderAmount"]);
+			return false;
+		} else {
+			amount.setCustomValidity("");
+			return true;
 		}
 	}
 })();
