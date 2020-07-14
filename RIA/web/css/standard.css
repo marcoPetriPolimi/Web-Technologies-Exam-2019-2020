@@ -264,6 +264,10 @@ div#accountStateInfoBox, div#accountStateTransfers, div#accountStateForm {
 	display: none;
 }
 
+#languageSelection {
+	margin-right: 50px;
+}
+
 .error {
 	/* positions, margin */
 	/* dimensions and padding */

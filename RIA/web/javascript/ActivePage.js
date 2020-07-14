@@ -51,6 +51,7 @@
 			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",orderFormManager.checkContactPresence);
 			document.querySelectorAll("#accountStateForm form input")[1].addEventListener("input",orderFormManager.accountCodeCheck);
 			document.querySelectorAll("#accountStateForm form input")[2].addEventListener("input",orderFormManager.amountCheck);
+			document.getElementById("languageSelection").addEventListener("input",navigatorManager.changeLanguageClick);
 
 			// auto clicks the homepage loader
 			document.getElementById("showHomepage").dispatchEvent(new Event("click"));
@@ -455,10 +456,6 @@
 		var pageManager = manager;
 
 		/********************************
-		 *   SERVER RESPONSE GETTERS	*
-		 ********************************/
-
-		/********************************
 		 *  	 EVENT RESPONDERS		*
 		 ********************************/
 		this.translation = function() {
@@ -545,6 +542,7 @@
 			document.querySelectorAll("#accountStateTransfers div.ingoingTransfers table thead tr th")[2].textContent = informationHolder.getLang()["accountStateTableThAmount"];
 			document.querySelectorAll("#accountStateTransfers div.ingoingTransfers table thead tr th")[3].textContent = informationHolder.getLang()["accountStateTableThDate"];
 			document.querySelectorAll("#accountStateTransfers div.ingoingTransfers table thead tr th")[4].textContent = informationHolder.getLang()["accountStateTableThReason"];
+			document.querySelector("#accountStateTransfers div.outgoingTransfers h2").textContent = informationHolder.getLang()["accountStateOutgoingHeading"];
 			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[0].textContent = informationHolder.getLang()["accountStateTableThRecipient"];
 			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[1].textContent = informationHolder.getLang()["accountStateTableThRecipientAccount"];
 			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[2].textContent = informationHolder.getLang()["accountStateTableThAmount"];
@@ -679,6 +677,9 @@
 			document.querySelectorAll("#accountStateForm form input")[2].placeholder = informationHolder.getLang()["accountStateFormAmount"];
 			document.querySelector("#accountStateForm form textarea").placeholder = informationHolder.getLang()["accountStateFormReason"];
 			document.querySelectorAll("#accountStateForm form input")[4].value = informationHolder.getLang()["accountStateFormOrder"];
+			if (document.getElementById("completionContacts").innerHTML !== "") {
+				self.checkContactPresence();
+			}
 		}
 	}
 	function ErrorManager(manager) {
@@ -788,6 +789,20 @@
 				document.location.href = "/index";
 			}
 		}
+		this.setLanguage = function(resp) {
+			if (resp.readyState == XMLHttpRequest.DONE) {
+				var jsonReceived = JSON.parse(resp.responseText);
+
+				switch (resp.status) {
+					case 200:
+						informationHolder.setLang(jsonReceived.keys);
+						sessionStorage.setItem("language",informationHolder.getLang()["language"]);
+						sessionStorage.setItem("country",informationHolder.getLang()["country"]);
+						pageManager.translation();
+						break;
+				}
+			}
+		}
 
 		/********************************
 		 *  	 EVENT RESPONDERS		*
@@ -797,6 +812,11 @@
 		}
 		this.logoutClick = function() {
 			ajaxCall("GET","/logout",self.logoutResponse);
+		}
+		this.changeLanguageClick = function(e) {
+			var select = e.target, addressToRequest;
+			addressToRequest = "/language?lang="+select.value+"&country="+langMap[select.value];
+			ajaxCall("GET",addressToRequest,self.setLanguage);
 		}
 		this.translation = function() {
 			document.getElementById("showHomepage").textContent = informationHolder.getLang()["showHomepage"];
@@ -811,6 +831,7 @@
 	 * 								*
 	 * 								*
 	 ********************************/
+	var langMap = {"ita":"IT", "eng":"US"};
 	var informationHolder;
 	var pageManager, userInfoManager, accountsManager, transferManager, orderFormManager, accountDetailsManager, errorManager, addressBookManager, navigatorManager;
 	var firstTranslation = false;

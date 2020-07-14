@@ -78,7 +78,6 @@ public class HttpServletThymeleaf extends HttpServlet {
 			session.setAttribute("country",lang.getLocale().getCountry());
 		}
 
-
 		return lang;
 	}
 
