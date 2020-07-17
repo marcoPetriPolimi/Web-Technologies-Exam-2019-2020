@@ -25,6 +25,8 @@ body > div.centeredMain {
 
 body > div.centeredMain > div.logoutPanel {
 	/* positions, margin */
+	position: relative;
+	top: 50px;
 	/* dimensions and padding */
 	/* view */
 	text-align: right;
@@ -124,7 +126,6 @@ body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.ingo
  */
 body > div.centeredMain > div.centeredMainBlock > form, body > div.centeredMain > div.centeredMainBlockInline form {
 	/* positions, margin */
-	margin-top: 15px;
 	/* dimensions and padding */
 	/* view */
 	display: inline-flex;
@@ -143,7 +144,7 @@ body > div.centeredMain > div.centeredMainBlock > form p, body > div.centeredMai
 	/* positions, margin */
 	/* dimensions and padding */
 	/* view */
-	text-align: left;
+	text-align: justify;
 }
 
 body > div.centeredMain > div.centeredMainBlock > h2, body > div.centeredMain > div.centeredMainBlockInline h2 {
@@ -222,6 +223,93 @@ body > div.centeredMain > div.errorPage {
 
 body > div.centeredMain > div.errorPage h2 {
 	align-self: center;
+}
+
+/****************************
+ *							*
+ * 		GENERAL STYLE		*
+ *							*
+ ****************************/
+input[type=number], input[type=text], input[type=password], input[type=email] {
+	/* positions, margin */
+	/* dimensions and padding */
+	width: 200px;
+	height: 25px;
+	padding: 5px;
+	/* view */
+	border: 1px solid rgba(166,166,166,1);
+}
+ 
+input[type=submit], input[type=button] {
+	/* positions, margin */
+	/* dimensions and padding */
+	width: 150px;
+	min-height: 40px;
+	padding: 5px 10px 5px 10px;
+	/* view */
+	border: none;
+	border-radius: 7px;
+	background-color: rgb(17,160,247);
+	color: rgb(255,255,255);
+	font-weight: bold;
+}
+
+input[type=submit]:hover, input[type=button]:hover {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	background-color: rgb(49, 177, 255);
+}
+
+input[type=submit]:active, input[type=button]:active {
+	/* positions, margin */
+	/* dimensions and padding */
+	/* view */
+	background-color: rgb(16, 141, 217);
+	box-shadow: inset 0px 0px 2px 1px rgba(0,0,0,0.4);
+}
+
+/****************************
+ *							*
+ * 		PAGES LAYOUT		*
+ *							*
+ ****************************/
+ /* LOGIN */
+.loginBlock {
+	/* positions, margin */
+	position: relative;
+	top: 100px;
+	/* dimensions and padding */
+	width: 250px;
+	padding: 25px 40px 25px 40px;
+	/* view */
+	box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.2);
+	border-radius: 20px;
+}
+
+body > div.centeredMain > div.centeredMainBlock > form > input[type=submit] {
+	margin-top: 15px;
+	align-self: center;
+}
+
+/* HOMEPAGE */
+.homepage {
+	/* positions, margin */
+	position: relative;
+	top: 100px;
+	/* dimensions and padding */
+	min-width: 500px;
+	padding: 25px 40px 25px 40px;
+	/* view */
+	box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.2);
+	border-radius: 20px;
+}
+
+body > div.centeredMain > div.homepage > div {
+	/* positions, margin */
+	margin-right: 200px;
+	/* dimensions and padding */
+	/* view */
 }
 
 /****************************

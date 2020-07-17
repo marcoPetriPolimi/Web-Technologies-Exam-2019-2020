@@ -72,7 +72,10 @@ public class CheckLogin extends HttpServletDBConnected {
 			jsonResponse = gson.toJson(loginMessage);
 			resp.getWriter().write(jsonResponse);
 		} else {
-			resp.sendRedirect("/index");
+			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			loginMessage = new GeneralMessage(lang);
+			jsonResponse = gson.toJson(loginMessage);
+			resp.getWriter().write(jsonResponse);
 		}
 	}
 

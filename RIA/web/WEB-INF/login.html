@@ -12,7 +12,7 @@
 
 <body>
 	<div class="centeredMain">
-		<div class="centeredMainBlock">
+		<div class="centeredMainBlock loginBlock">
 			<form method="POST" data-th-attr="action=@{/index}" autocomplete="off">
 				<p class="hidden" id="LoginError"></p>
 				<input type="text" minlength="1" maxlength="30" name="username" placeholder="Nome univoco" data-th-placeholder='${lang.getString("loginCode")}' required/>
@@ -23,7 +23,7 @@
 			<form method="POST" data-th-attr="action=@{/index}" id="registrationForm" autocomplete="off">
 				<p class="hidden" id="RegistrationError"></p>
 				<input type="text" minlength="1" maxlength="30" name="username" placeholder="Nome univoco" data-th-placeholder='${lang.getString("loginName")}' required/>
-				<input type="email" name="email" placeholder="email" data-th-placeholder='${lang.getString("loginEmail")}' required/>
+				<input type="email" name="email" placeholder="Email" data-th-placeholder='${lang.getString("loginEmail")}' required/>
 				<input type="password" name="password" placeholder="Password" data-th-placeholder='${lang.getString("loginPassword")}' required/>
 				<input type="password" name="repeatedPwd" placeholder="Ripeti password" data-th-placeholder='${lang.getString("loginRepeatPassword")}' required/>
 				<input type="button" id="RegistrationSubmit" value="Registrazione" data-th-value='${lang.getString("loginRegistration")}'/>

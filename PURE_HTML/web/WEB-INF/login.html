@@ -10,7 +10,7 @@
 
 <body>
 	<div class="centeredMain">
-		<div class="centeredMainBlock">
+		<div class="centeredMainBlock loginBlock">
 			<form method="POST" data-th-attr="action=@{/index}">
 				<p class="error" data-th-class="${loginError}? 'error' : 'hidden'" data-th-utext='${lang.getString("errorLogin")}'>The user doesn't exist or you've forgot the password.</p>
 				<input type="number" min="0" name="code" placeholder="Codice univoco" data-th-placeholder='${lang.getString("loginCode")}' required/>

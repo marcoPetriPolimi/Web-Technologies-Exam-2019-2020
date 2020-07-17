@@ -85,7 +85,9 @@ public class CheckRegistration extends HttpServletDBConnected {
 			}
 			resp.getWriter().write(gson.toJson(registrationMessage));
 		} else {
-			resp.sendRedirect("/index");
+			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			registrationMessage = new ErrorMessage(lang,lang.getString("errorRegistration"));
+			resp.getWriter().write(gson.toJson(registrationMessage));
 		}
 	}
 
