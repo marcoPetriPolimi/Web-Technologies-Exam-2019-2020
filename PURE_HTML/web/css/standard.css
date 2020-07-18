@@ -44,6 +44,7 @@ body > div.centeredMain > div.centeredMainBlock {
 body > div.centeredMain > div.centeredMainBlockInline {
 	/* positions, margin */
 	position: relative;
+	margin-bottom: 200px;
 	/* dimensions and padding */
 	/* view */
 	display: inline-flex;
@@ -59,7 +60,7 @@ body > div.centeredMain > div.logoutPanel > a.backHomepage {
 
 body > div.centeredMain > div.centeredMainBlockInline > div {
 	/* positions, margin */
-	margin-right: 30px;
+	margin-right: 75px;
 	/* dimensions and padding */
 	/* view */
 }
@@ -104,11 +105,17 @@ body > div.centeredMain > div.centeredMainBlockInline > div.transfers {
 	flex-direction: column;
 }
 
-body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.ingoingTransfers, body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.outgoingTransfers, body > div.centeredMain > div.centeredMainBlockInline > div.transfersFormBlock {
+body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.ingoingTransfers, body > div.centeredMain > div.centeredMainBlockInline > div.transfers > div.outgoingTransfers {
 	/* positions, margin */
-	margin-left: 20px;
-	margin-right: 20px;
 	/* dimensions and padding */
+	/* view */
+	display: block;
+}
+
+body > div.centeredMain > div.centeredMainBlockInline > div.transfersFormBlock {
+	/* positions, margin */
+	/* dimensions and padding */
+	width: 300px;
 	/* view */
 	display: block;
 }
@@ -160,12 +167,12 @@ body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table
 	/* view */
 	border-collapse: collapse;
 	border: 1px solid #000000;
+	align-self: center;
 }
 body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable th, body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table.moneyTable td, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable th, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td, body > div.centeredMain > div.centeredMainBlock table.moneyTable th, body > div.centeredMain > div.centeredMainBlock table.moneyTable td {
 	/* positions, margin */
 	/* dimensions and padding */
-	min-width: 100px;
-	max-width: 250px;
+	width: 150px;
 	padding: 5px 10px 5px 10px;
 	/* view */
 	border-collapse: collapse;
@@ -175,7 +182,7 @@ body > div.centeredMain > div.centeredMainBlockInline > div.accountOwned > table
 body > div.centeredMain > div.centeredMainBlockInline table.moneyTable th.reason, body > div.centeredMain > div.centeredMainBlockInline table.moneyTable td.reason {
 	/* positions, margin */
 	/* dimensions and padding */
-	max-width: 200px;
+	width: 250px;
 	/* view */
 	word-wrap: break-word;
 }
@@ -214,6 +221,7 @@ body > div.centeredMain > div.failPage > ol {
 }
 
 body > div.centeredMain > div.successPage > table {
+	margin-top: 15px;
 	margin-bottom: 15px;
 }
 
@@ -269,6 +277,18 @@ input[type=submit]:active, input[type=button]:active {
 	box-shadow: inset 0px 0px 2px 1px rgba(0,0,0,0.4);
 }
 
+textarea {
+	/* positions, margin */
+	/* dimensions and padding */
+	padding: 5px;
+	min-width: 200px;
+	max-width: 200px;
+	min-height: 60px;
+	max-height: 150px;
+	/* view */
+	border: 1px solid rgba(166,166,166,1);
+}
+
 /****************************
  *							*
  * 		PAGES LAYOUT		*
@@ -293,7 +313,7 @@ body > div.centeredMain > div.centeredMainBlock > form > input[type=submit] {
 }
 
 /* HOMEPAGE */
-.homepage {
+.homepage, .failPage, .successPage {
 	/* positions, margin */
 	position: relative;
 	top: 100px;
@@ -310,6 +330,24 @@ body > div.centeredMain > div.homepage > div {
 	margin-right: 200px;
 	/* dimensions and padding */
 	/* view */
+}
+
+/* HOMEPAGE */
+.accountState {
+	/* positions, margin */
+	position: relative;
+	top: 100px;
+	/* dimensions and padding */
+	min-width: 500px;
+	padding: 25px 40px 25px 40px;
+	/* view */
+	box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.2);
+	border-radius: 20px;
+}
+
+body > div.centeredMain > div.accountState > div.transfersFormBlock > form > input[type=submit] {
+	margin-top: 15px;
+	align-self: center;
 }
 
 /****************************
