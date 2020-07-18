@@ -5,6 +5,7 @@ import it.polimi.tiw.ria.beans.Account;
 import it.polimi.tiw.ria.beans.User;
 import it.polimi.tiw.ria.controller.HttpServletThymeleaf;
 import it.polimi.tiw.ria.dao.AccountDAO;
+import it.polimi.tiw.ria.utils.ErrorMessage;
 import it.polimi.tiw.ria.utils.GeneralMessage;
 
 import javax.servlet.FilterChain;
@@ -31,6 +32,7 @@ public class AccountFilter extends HttpServletFilter {
 		ResourceBundle lang = HttpServletThymeleaf.findLanguage(req);
 		AccountDAO accountDAO = new AccountDAO(conn, lang.getLocale().getLanguage(), lang.getLocale().getCountry());
 		User user = (User) session.getAttribute("user");
+		ErrorMessage errorMessage;
 		GeneralMessage filterMessage = new GeneralMessage(lang);
 		Gson gson = new Gson();
 		String jsonResponse;
@@ -54,7 +56,8 @@ public class AccountFilter extends HttpServletFilter {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			jsonResponse = gson.toJson(filterMessage);
+			errorMessage = new ErrorMessage(lang,lang.getString("errorBadRequest"));
+			jsonResponse = gson.toJson(errorMessage);
 			resp.getWriter().write(jsonResponse);
 		} catch (SQLException e) {
 			e.printStackTrace();

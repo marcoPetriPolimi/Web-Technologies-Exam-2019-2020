@@ -57,7 +57,9 @@ public class TransferDAO extends GeneralDAO {
 		AccountDAO accountDAO = new AccountDAO(conn);
 
 		/* exception handling */
-		if (outgoing < 0 || ingoing < 0 || reason.length() > 200 || amount <= 0) {
+		if (reason == null) {
+			throw new IllegalArgumentException(selectedLanguage.getString("dbTransferWrongParams"));
+		} else if (outgoing < 0 || ingoing < 0 || reason.length() > 200 || amount <= 0) {
 			throw new IllegalArgumentException(selectedLanguage.getString("dbTransferWrongParams"));
 		} else {
 			outgoingAccount = accountDAO.findAccount(outgoing);

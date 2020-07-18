@@ -24,13 +24,11 @@ public class CheckLogin extends HttpServletDBConnected {
 		HttpSession session;
 		String loginPage = "login";
 		String uniqueCode = req.getParameter("code");
-		String name = req.getParameter("name");
 		String password = req.getParameter("password");
 		String login = req.getParameter("login");
-		String register = req.getParameter("register");
 		UserDAO userDAO = new UserDAO(conn,lang.getLocale().getLanguage(),lang.getLocale().getCountry());
 		User user;
-		boolean loginError = false, registerError = false, dataError = false;
+		boolean loginError = false, dataError = false;
 
 		// the request is processed only if the parameters sent are correct
 		if (login != null && uniqueCode != null && password != null) {

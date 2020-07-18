@@ -39,7 +39,7 @@ public class CheckTransfer extends HttpServletDBConnected {
 		String reason = req.getParameter("reason");
 		String order = req.getParameter("order");
 
-		if (order != null && accountCode != null && recipientCode != null && recipientAccountCode != null && amountInserted != null && (reason == null || reason.length() <= 200)) {
+		if (order != null && accountCode != null && recipientCode != null && recipientAccountCode != null && amountInserted != null && reason != null && reason.length() <= 200) {
 			try {
 				account = accountDAO.findAccount(Integer.parseInt(accountCode));
 				recipientAccount = accountDAO.findAccount(Integer.parseInt(recipientAccountCode));

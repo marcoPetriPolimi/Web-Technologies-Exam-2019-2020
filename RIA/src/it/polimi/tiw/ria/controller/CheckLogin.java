@@ -35,7 +35,7 @@ public class CheckLogin extends HttpServletDBConnected {
 		boolean dataError = false, generalError = false;
 
 		// the request is processed only if the parameters sent are correct
-		if (username != null && password != null) {
+		if (username != null && password != null && username.length() > 0 && password.length() > 0) {
 			try {
 				user = userDAO.findUser(username);
 				if (user != null) {

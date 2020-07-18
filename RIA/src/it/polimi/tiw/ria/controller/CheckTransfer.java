@@ -6,7 +6,6 @@ import it.polimi.tiw.ria.beans.User;
 import it.polimi.tiw.ria.dao.AccountDAO;
 import it.polimi.tiw.ria.dao.TransferDAO;
 import it.polimi.tiw.ria.dao.UserDAO;
-import it.polimi.tiw.ria.utils.Const;
 import it.polimi.tiw.ria.utils.ErrorMessage;
 import it.polimi.tiw.ria.utils.TransferSuccess;
 
@@ -43,7 +42,7 @@ public class CheckTransfer extends HttpServletDBConnected {
 		String amountInserted = req.getParameter("amount");
 		String reason = req.getParameter("reason");
 
-		if (accountCode != null && recipientCode != null && recipientAccountCode != null && amountInserted != null && (reason == null || reason.length() <= 200)) {
+		if (accountCode != null && recipientCode != null && recipientAccountCode != null && amountInserted != null && reason != null && reason.length() <= 200) {
 			try {
 				account = accountDAO.findAccount(Integer.parseInt(accountCode));
 				recipientAccount = accountDAO.findAccount(Integer.parseInt(recipientAccountCode));
@@ -102,7 +101,7 @@ public class CheckTransfer extends HttpServletDBConnected {
 				resp.setContentType("application/json");
 				resp.setCharacterEncoding("UTF-8");
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				transferMessage = new ErrorMessage(lang, Const.modificationError);
+				transferMessage = new ErrorMessage(lang,lang.getString("errorManipulation"));
 				jsonResponse = gson.toJson(transferMessage);
 				resp.getWriter().write(jsonResponse);
 			} catch (SQLException e) {
@@ -118,7 +117,7 @@ public class CheckTransfer extends HttpServletDBConnected {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			transferMessage = new ErrorMessage(lang);
+			transferMessage = new ErrorMessage(lang,lang.getString("errorManipulation"));
 			jsonResponse = gson.toJson(transferMessage);
 			resp.getWriter().write(jsonResponse);
 		}
