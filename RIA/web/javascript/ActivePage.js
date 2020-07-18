@@ -79,6 +79,7 @@
 				row.append(accountBalance);
 			}
 
+			document.querySelector("body > div.centeredMain > div.centeredMainBlockInline").className = "centeredMainBlockInline homepage";
 			document.querySelectorAll("#homepageAccounts table.moneyTable tbody tr td a").forEach(function(elem) {
 				elem.addEventListener("click",accountsManager.accountClick);
 			});
@@ -98,6 +99,7 @@
 			this.loadIngoingTransfers(infoHolder);
 			this.loadOutgoingTransfers(infoHolder);
 
+			document.querySelector("body > div.centeredMain > div.centeredMainBlockInline").className = "centeredMainBlockInline accountState";
 			document.getElementById("homepageInfoBox").style.display = "none";
 			document.getElementById("homepageAccounts").style.display = "none";
 			document.getElementById("showHomepage").style.display = "block";
@@ -526,11 +528,15 @@
 		 *  	 EVENT RESPONDERS		*
 		 ********************************/
 		this.ingoingTransferPageClick = function(e) {
+			e.preventDefault();
+
 			var pageNumber = e.target.textContent;
 			var addressToRequest = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=in&in="+pageNumber;
 			ajaxCall("GET",addressToRequest,self.ingoingTransferPageResponse);
 		}
 		this.outgoingTransferPageClick = function(e) {
+			e.preventDefault();
+
 			var pageNumber = e.target.textContent;
 			var addressToRequest = "/getTransfers?accountCode="+informationHolder.getAccountInfo()["code"]+"&type=out&out="+pageNumber;
 			ajaxCall("GET",addressToRequest,self.outgoingTransferPageResponse);
