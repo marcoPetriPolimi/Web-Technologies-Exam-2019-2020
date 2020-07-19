@@ -1,7 +1,11 @@
 package it.polimi.tiw.pure_html.beans;
 
+import it.polimi.tiw.pure_html.utils.Const;
+
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Transfer {
 	private final int id;
@@ -32,9 +36,14 @@ public class Transfer {
 	public Timestamp getDatetime() {
 		return datetime;
 	}
-	public String getStringDate() {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return format.format(datetime);
+	public String getStringDate(Locale language) {
+		DateFormat dateFormatter;
+		Date date;
+
+		dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT,new Locale(Const.newIsoLangTagsToOld.get(language.getLanguage()),language.getCountry()));
+		date = new Date(datetime.getTime());
+
+		return dateFormatter.format(date);
 	}
 	public int getAmount() {
 		return amount;

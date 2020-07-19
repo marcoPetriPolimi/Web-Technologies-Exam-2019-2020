@@ -13,6 +13,7 @@ public class Const {
 	public static final List<String> acceptedLangTags = List.of("ita","eng");
 	public static final List<String> acceptedOldIsoLangTags = List.of("it","en");
 	public static final Map<String,String> oldIsoLangTagsToNew = Map.of("it","ita","en","eng");
+	public static final Map<String,String> newIsoLangTagsToOld = Map.of("ita","it","eng","en");
 	public static final Map<String,String> isoTagToCountry = Map.of("ita","IT","eng","US");
 
 	// default properties files position

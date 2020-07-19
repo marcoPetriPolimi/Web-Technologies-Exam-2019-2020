@@ -44,7 +44,7 @@
 								<td data-th-utext='${ingoing.getOutgoing().getOwner().getCode()}'>5</td>
 								<td data-th-utext='${ingoing.getOutgoing().getCode()}'>9000000</td>
 								<td data-th-utext='${ingoing.getAmount()}'>9000000</td>
-								<td data-th-utext='${ingoing.getStringDate()}'>2020-07-10</td>
+								<td data-th-utext='${ingoing.getStringDate(lang.getLocale())}'>2020-07-10</td>
 								<td data-th-utext='${ingoing.getReason()}' class="reason">Ragione del trasferimento</td>
 							</tr>
 						</tbody>
@@ -74,7 +74,7 @@
 								<td data-th-utext='${outgoing.getIngoing().getOwner().getCode()}'>5</td>
 								<td data-th-utext='${outgoing.getIngoing().getCode()}'>9000000</td>
 								<td data-th-utext='${outgoing.getAmount()}'>9000000</td>
-								<td data-th-utext='${outgoing.getStringDate()}'>2020-07-10</td>
+								<td data-th-utext='${outgoing.getStringDate(lang.getLocale())}'>2020-07-10</td>
 								<td data-th-utext='${outgoing.getReason()}' class="reason">Ragione del trasferimento</td>
 							</tr>
 						</tbody>

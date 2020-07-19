@@ -124,10 +124,11 @@
 				let amount = document.createElement("td");
 				let date = document.createElement("td");
 				let reason = document.createElement("td");
+				let intDate = new Date(infoHolder.getOutgoingTransfers()[i]["datetime"]);
 				sender.textContent = infoHolder.getIngoingTransfers()[i]["outgoing"]["owner"]["code"];
 				senderAccount.textContent = infoHolder.getIngoingTransfers()[i]["outgoing"]["code"];
 				amount.textContent = infoHolder.getIngoingTransfers()[i]["amount"];
-				date.textContent = infoHolder.getIngoingTransfers()[i]["datetime"];
+				date.textContent = new Intl.DateTimeFormat(informationHolder.getLang()["language"]+"-"+informationHolder.getLang()["country"]).format(intDate);
 				reason.textContent = infoHolder.getIngoingTransfers()[i]["reason"];
 				reason.className = "reason";
 
@@ -193,10 +194,11 @@
 				let amount = document.createElement("td");
 				let date = document.createElement("td");
 				let reason = document.createElement("td");
+				let intDate = new Date(infoHolder.getOutgoingTransfers()[i]["datetime"]);
 				sender.textContent = infoHolder.getOutgoingTransfers()[i]["ingoing"]["owner"]["code"];
 				senderAccount.textContent = infoHolder.getOutgoingTransfers()[i]["ingoing"]["code"];
 				amount.textContent = infoHolder.getOutgoingTransfers()[i]["amount"];
-				date.textContent = infoHolder.getOutgoingTransfers()[i]["datetime"];
+				date.textContent = new Intl.DateTimeFormat(informationHolder.getLang()["language"]+"-"+informationHolder.getLang()["country"]).format(intDate);
 				reason.textContent = infoHolder.getOutgoingTransfers()[i]["reason"];
 				reason.className = "reason";
 
@@ -554,6 +556,12 @@
 			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[2].textContent = informationHolder.getLang()["accountStateTableThAmount"];
 			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[3].textContent = informationHolder.getLang()["accountStateTableThDate"];
 			document.querySelectorAll("#accountStateTransfers div.outgoingTransfers table thead tr th")[4].textContent = informationHolder.getLang()["accountStateTableThReason"];
+			if (informationHolder.getIngoingTransfers() !== null) {
+				pageManager.loadIngoingTransfers(informationHolder);
+			}
+			if (informationHolder.getOutgoingTransfers() !== null) {
+				pageManager.loadOutgoingTransfers(informationHolder);
+			}
 		}
 	}
 	function OrderFormManager(manager) {
